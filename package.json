@@ -1,0 +1,18 @@
+{
+  "name": "focus-point",
+  "version": "0.1.0",
+  "description": "Tool for masking responsive images while keeping a focus point",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "@leofavre/focus-point"
+  },
+  "author": "Leonardo Favre",
+  "license": "MIT",
+  "volta": {
+    "node": "22.18.0",
+    "yarn": "4.9.2"
+  }
+}

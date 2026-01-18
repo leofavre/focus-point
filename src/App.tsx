@@ -80,11 +80,8 @@ export default function App() {
     />
   ) : (
     <>
-      {/**
-       * @todo Allow CSS to be combined so touch-none select-none can be moved to the component
-       */}
       <ImageContainer
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 touch-none select-none"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         ref={imageRef}
         aspectRatio={aspectRatio}
         imageUrl={imageUrl}
@@ -92,7 +89,7 @@ export default function App() {
         onImageError={handleImageError}
       />
       <AspectRatioSlider
-        className="fixed bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 w-full max-w-4xl px-4"
+        className="fixed bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 max-w-4xl px-4"
         aspectRatio={aspectRatio}
         onAspectRatioChange={setAspectRatio}
       />

@@ -1,14 +1,15 @@
+import clsx from "clsx";
 import type { ChangeEvent } from "react";
 import { useCallback, useEffectEvent } from "react";
 import { ASPECT_RATIO } from "./constants";
 import { toAspectRatio, toPreciseAspectRatio } from "./helpers";
-
 import type { AspectRatioSliderProps } from "./types";
 
 export function AspectRatioSlider({
   ref,
   aspectRatio,
   onAspectRatioChange,
+  className,
   ...rest
 }: AspectRatioSliderProps) {
   const preciseAspectRatio = toPreciseAspectRatio(aspectRatio ?? 0);
@@ -33,19 +34,20 @@ export function AspectRatioSlider({
   }, []);
 
   return (
-    <div {...rest}>
-      <div className="flex flex-col items-center gap-2 w-full">
-        <input
-          ref={ref}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600 "
-          type="range"
-          step={1}
-          min={minPrecise}
-          max={maxPrecise}
-          value={preciseAspectRatio}
-          onChange={handleChange}
-        />
-      </div>
+    <div
+      className={clsx("flex flex-col items-center gap-2 w-full", className)}
+      {...rest}
+    >
+      <input
+        ref={ref}
+        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+        type="range"
+        step={1}
+        min={minPrecise}
+        max={maxPrecise}
+        value={preciseAspectRatio}
+        onChange={handleChange}
+      />
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import type { PointerEvent } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CURSOR_MAP, DEFAULT_OBJECT_POSITION } from "./constants";
@@ -13,6 +14,7 @@ export function ImageContainer({
   imageUrl,
   onImageLoad,
   onImageError,
+  className,
   ...rest
 }: ImageContainerProps) {
   const [objectPosition, setObjectPosition] = useState<string>(
@@ -138,6 +140,7 @@ export function ImageContainer({
 
   return (
     <div
+      className={clsx("touch-none select-none", className)}
       style={{
         aspectRatio: aspectRatio ?? "auto",
         height: `${detectProportionalImageHeight({ aspectRatio }) ?? 0}vmin`,

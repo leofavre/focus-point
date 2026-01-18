@@ -22,10 +22,7 @@ export function AspectRatioSlider({
   }, []);
 
   return (
-    <div
-      className={clsx("flex flex-col items-center gap-2 w-full", className)}
-      {...rest}
-    >
+    <div className={clsx("flex flex-col items-center gap-2 w-full", className)} {...rest}>
       <input
         ref={ref}
         className="w-full bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"

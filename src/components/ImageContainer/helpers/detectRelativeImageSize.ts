@@ -1,10 +1,6 @@
 import { IMAGE_AREA_RATIO } from "../constants";
 
-export function detectProportionalImageHeight({
-  aspectRatio,
-}: {
-  aspectRatio?: number;
-}) {
+export function detectProportionalImageHeight({ aspectRatio }: { aspectRatio?: number }) {
   if (aspectRatio == null) return;
 
   const containerHeight = window.document.documentElement.clientHeight;

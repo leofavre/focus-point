@@ -17,12 +17,8 @@ export function ImageContainer({
   className,
   ...rest
 }: ImageContainerProps) {
-  const [objectPosition, setObjectPosition] = useState<string>(
-    DEFAULT_OBJECT_POSITION,
-  );
-  const [imageObserved, setImageObserved] = useState<ImageObserved | null>(
-    null,
-  );
+  const [objectPosition, setObjectPosition] = useState<string>(DEFAULT_OBJECT_POSITION);
+  const [imageObserved, setImageObserved] = useState<ImageObserved | null>(null);
 
   const isDraggingRef = useRef<boolean>(false);
   const objectPositionStartRef = useRef<string>(DEFAULT_OBJECT_POSITION);
@@ -36,13 +32,7 @@ export function ImageContainer({
         const { width, height } = entry.contentRect;
         const { naturalWidth = 0, naturalHeight = 0 } = ref.current ?? {};
 
-        if (
-          width === 0 &&
-          height === 0 &&
-          naturalWidth === 0 &&
-          naturalHeight === 0
-        )
-          continue;
+        if (width === 0 && height === 0 && naturalWidth === 0 && naturalHeight === 0) continue;
 
         const currentAspectRatio = width / height;
         const naturalAspectRatio = naturalWidth / naturalHeight;
@@ -101,20 +91,14 @@ export function ImageContainer({
 
       const pointerPosition = getPointerCoordinatesFromEvent({ event });
 
-      const deltaX =
-        pointerPosition.x - (pointerPositionStartRef.current?.x ?? 0);
-      const deltaY =
-        pointerPosition.y - (pointerPositionStartRef.current?.y ?? 0);
+      const deltaX = pointerPosition.x - (pointerPositionStartRef.current?.x ?? 0);
+      const deltaY = pointerPosition.y - (pointerPositionStartRef.current?.y ?? 0);
       const deltaXPercent = (deltaX / imageObserved.deltaWidth) * 100;
       const deltaYPercent = (deltaY / imageObserved.deltaHeight) * 100;
-      const maybeDeltaXPercent =
-        imageObserved.movementAxis === "horizontal" ? deltaXPercent : 0;
-      const maybeDeltaYPercent =
-        imageObserved.movementAxis === "vertical" ? deltaYPercent : 0;
+      const maybeDeltaXPercent = imageObserved.movementAxis === "horizontal" ? deltaXPercent : 0;
+      const maybeDeltaYPercent = imageObserved.movementAxis === "vertical" ? deltaYPercent : 0;
 
-      const prevObjectPosition = cssObjectPositionToCoordinates(
-        objectPositionStartRef.current,
-      );
+      const prevObjectPosition = cssObjectPositionToCoordinates(objectPositionStartRef.current);
 
       const nextObjectPosition = coordinatesToCssObjectPosition({
         x: prevObjectPosition.x - maybeDeltaXPercent,
@@ -134,9 +118,7 @@ export function ImageContainer({
   }, []);
 
   const cursor =
-    imageObserved?.movementAxis == null
-      ? "crosshair"
-      : CURSOR_MAP[imageObserved.movementAxis];
+    imageObserved?.movementAxis == null ? "crosshair" : CURSOR_MAP[imageObserved.movementAxis];
 
   return (
     <div

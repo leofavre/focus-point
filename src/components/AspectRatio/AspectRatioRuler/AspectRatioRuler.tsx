@@ -1,22 +1,12 @@
 import clsx from "clsx";
 import type { AspectRatioRulerProps } from "./types";
 
-export function AspectRatioRuler({
-  aspectRatioList,
-  className,
-  ...rest
-}: AspectRatioRulerProps) {
+export function AspectRatioRuler({ aspectRatioList, className, ...rest }: AspectRatioRulerProps) {
   const min = aspectRatioList.at(0)?.preciseValue ?? 1;
   const max = aspectRatioList.at(-1)?.preciseValue ?? 1;
 
   return (
-    <ul
-      className={clsx(
-        "relative flex items-start text-xs text-gray-500",
-        className,
-      )}
-      {...rest}
-    >
+    <ul className={clsx("relative flex items-start text-xs text-gray-500", className)} {...rest}>
       {aspectRatioList.map(({ name, preciseValue }) => {
         const left = `${((preciseValue - min) / (max - min)) * 100}%`;
 

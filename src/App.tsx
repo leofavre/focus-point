@@ -45,28 +45,22 @@ export default function App() {
     };
   }, [imageUrl]);
 
-  const handleFileChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      const file = event.target.files?.[0];
+  const handleFileChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
 
-      if (file?.type.startsWith("image/")) {
-        const url = URL.createObjectURL(file);
-        setImageUrl(url);
-      }
-    },
-    [],
-  );
+    if (file?.type.startsWith("image/")) {
+      const url = URL.createObjectURL(file);
+      setImageUrl(url);
+    }
+  }, []);
 
-  const handleImageLoad = useCallback(
-    (event: SyntheticEvent<HTMLImageElement>) => {
-      const img = event.currentTarget;
-      const naturalAspectRatio = img.naturalWidth / img.naturalHeight;
+  const handleImageLoad = useCallback((event: SyntheticEvent<HTMLImageElement>) => {
+    const img = event.currentTarget;
+    const naturalAspectRatio = img.naturalWidth / img.naturalHeight;
 
-      setNaturalAspectRatio(naturalAspectRatio);
-      setAspectRatio(naturalAspectRatio);
-    },
-    [],
-  );
+    setNaturalAspectRatio(naturalAspectRatio);
+    setAspectRatio(naturalAspectRatio);
+  }, []);
 
   const handleImageError = useCallback(() => {
     if (imageUrl) {
@@ -102,10 +96,7 @@ export default function App() {
             aspectRatioList={aspectRatioList}
             onAspectRatioChange={setAspectRatio}
           />
-          <AspectRatioRuler
-            aspectRatioList={aspectRatioList}
-            className="mx-2"
-          />
+          <AspectRatioRuler aspectRatioList={aspectRatioList} className="mx-2" />
         </div>
       )}
     </>

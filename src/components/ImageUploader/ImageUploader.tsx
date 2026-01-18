@@ -1,19 +1,11 @@
 import type { ImageUploaderProps } from "./types";
 
-export function ImageUploader({
-  ref,
-  onFormSubmit,
-  onImageChange,
-  ...rest
-}: ImageUploaderProps) {
+export function ImageUploader({ ref, onFormSubmit, onImageChange, ...rest }: ImageUploaderProps) {
   return (
     <div {...rest}>
       <form onSubmit={onFormSubmit} noValidate>
         <div>
-          <label
-            htmlFor="image-upload"
-            className="block mb-2 text-sm font-medium"
-          >
+          <label htmlFor="image-upload" className="block mb-2 text-sm font-medium">
             Upload Image
           </label>
           <input

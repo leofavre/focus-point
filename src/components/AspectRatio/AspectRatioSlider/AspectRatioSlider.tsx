@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import type { ChangeEvent } from "react";
 import { useCallback, useEffectEvent } from "react";
-import { toAspectRatio, toPreciseAspectRatio } from "./helpers";
+import { toAspectRatio, toPreciseAspectRatio } from "../helpers";
 import type { AspectRatioSliderProps } from "./types";
 
 export function AspectRatioSlider({

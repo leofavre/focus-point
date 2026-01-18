@@ -1,8 +1,8 @@
 import type { ChangeEvent, FormEvent, SyntheticEvent } from "react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AspectRatioRuler } from "./components/AspectRatio/AspectRatioRuler/AspectRatioRuler";
 import { AspectRatioSlider } from "./components/AspectRatio/AspectRatioSlider/AspectRatioSlider";
-import { getAspectRatioList } from "./components/AspectRatio/AspectRatioSlider/constants";
+import { useAspectRatioList } from "./components/AspectRatio/hooks";
 import { ImageContainer } from "./components/ImageContainer/ImageContainer";
 import { ImageUploader } from "./components/ImageUploader/ImageUploader";
 
@@ -35,10 +35,7 @@ export default function App() {
   const [aspectRatio, setAspectRatio] = useState<number>();
   const [naturalAspectRatio, setNaturalAspectRatio] = useState<number>();
 
-  const aspectRatioList = useMemo(
-    () => getAspectRatioList(naturalAspectRatio),
-    [naturalAspectRatio],
-  );
+  const aspectRatioList = useAspectRatioList(naturalAspectRatio);
 
   useEffect(() => {
     return () => {

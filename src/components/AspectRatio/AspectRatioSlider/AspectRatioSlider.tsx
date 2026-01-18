@@ -38,10 +38,8 @@ export function AspectRatioSlider({
         list="aspect-ratio"
       />
       <datalist id="aspect-ratio">
-        {aspectRatioList.map(({ name, preciseValue }) => (
-          <option key={preciseValue} value={preciseValue}>
-            {name}
-          </option>
+        {aspectRatioList.map(({ preciseValue }) => (
+          <option key={preciseValue} value={preciseValue} />
         ))}
       </datalist>
     </div>

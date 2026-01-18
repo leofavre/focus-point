@@ -1,7 +1,7 @@
 import { toPreciseAspectRatio } from "./helpers";
 import type { AspectRatio } from "./types";
 
-export const ASPECT_RATIO_PRECISION = 100;
+export const ASPECT_RATIO_PRECISION = 100_000;
 
 const ASPECT_RATIO_MAP: Record<string, number> = {
   "9:16": 9 / 16,

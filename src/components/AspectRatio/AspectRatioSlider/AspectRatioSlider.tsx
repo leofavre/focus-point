@@ -12,10 +12,6 @@ export function AspectRatioSlider({
   className,
   ...rest
 }: AspectRatioSliderProps) {
-  const preciseAspectRatio = toPreciseAspectRatio(aspectRatio);
-  const preciseMinAspectRatio = aspectRatioList.at(0)?.preciseValue;
-  const preciseMaxAspectRatio = aspectRatioList.at(-1)?.preciseValue;
-
   const stableOnAspectRatioChange = useEffectEvent((aspectRatio: number) => {
     onAspectRatioChange?.(aspectRatio);
   });
@@ -35,9 +31,9 @@ export function AspectRatioSlider({
         className="w-full bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
         type="range"
         step={1}
-        min={preciseMinAspectRatio}
-        max={preciseMaxAspectRatio}
-        value={preciseAspectRatio}
+        min={aspectRatioList.at(0)?.preciseValue}
+        max={aspectRatioList.at(-1)?.preciseValue}
+        value={toPreciseAspectRatio(aspectRatio)}
         onChange={handleChange}
         list="aspect-ratio"
       />

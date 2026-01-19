@@ -14,9 +14,9 @@ export function scaleDimensionsToContainRect({
   let nextHeight = rect.height;
 
   if (sourceAspectRatio > rectAspectRatio) {
-    nextWidth = (rect.height * source.width) / source.height;
+    nextWidth = source.height > 0 ? (rect.height * source.width) / source.height : 0;
   } else {
-    nextHeight = (rect.width * source.height) / source.width;
+    nextHeight = source.width > 0 ? (rect.width * source.height) / source.width : 0;
   }
 
   return {

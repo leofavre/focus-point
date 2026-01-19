@@ -12,8 +12,10 @@ export type Dimensions = {
 };
 
 export type ImageObserved = {
-  deltaWidth: number;
-  deltaHeight: number;
+  deltaWidthPx: number;
+  deltaHeightPx: number;
+  deltaWidthPercent: number;
+  deltaHeightPercent: number;
   changedDimension: "width" | "height" | undefined;
 };
 

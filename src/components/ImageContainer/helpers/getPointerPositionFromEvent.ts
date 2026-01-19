@@ -1,9 +1,11 @@
 import type { Coordinates } from "../types";
 
 export function getPointerCoordinatesFromEvent({
-  event: { clientX, clientY },
+  clientX,
+  clientY,
 }: {
-  event: { clientX: number; clientY: number };
+  clientX: number;
+  clientY: number;
 }): Coordinates {
   return { x: clientX, y: clientY };
 }

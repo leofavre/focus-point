@@ -1,15 +1,16 @@
 import clsx from "clsx";
 import type { PointerEvent } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { clamp, toPercentage } from "../../helpers";
 import { CURSOR_MAP, DEFAULT_OBJECT_POSITION } from "./constants";
-import { coordinatesToCssObjectPosition } from "./helpers/coordinatesToCssObjectPosition";
-import { cssObjectPositionToCoordinates } from "./helpers/cssObjectPositionToCoordinates";
+import { cssObjectPositionObjectToString } from "./helpers/cssObjectPositionObjectToString";
+import { cssObjectPositionStringToObject } from "./helpers/cssObjectPositionStringToObject";
 import { detectProportionalImageHeight } from "./helpers/detectRelativeImageSize";
 import { getPointerCoordinatesFromEvent } from "./helpers/getPointerPositionFromEvent";
 import { scaleDimensionsToContainRect } from "./helpers/scaleDimensionToContainRect";
 import type { Coordinates, ImageContainerProps, ImageObserved } from "./types";
 
-const DELTA_DIMENSION_THRESHOLD = 1;
+const DELTA_DIMENSION_THRESHOLD_PX = 1;
 
 export function ImageContainer({
   ref,
@@ -41,19 +42,24 @@ export function ImageContainer({
         const rect = entry.contentRect;
 
         const { width, height } = scaleDimensionsToContainRect({ source, rect });
-        const deltaWidth = width - rect.width;
-        const deltaHeight = height - rect.height;
+
+        const deltaWidthPx = width - rect.width;
+        const deltaHeightPx = height - rect.height;
+        const deltaWidthPercent = toPercentage(deltaWidthPx, width);
+        const deltaHeightPercent = toPercentage(deltaHeightPx, height);
 
         const changedDimension =
-          deltaWidth > DELTA_DIMENSION_THRESHOLD
+          deltaWidthPx > DELTA_DIMENSION_THRESHOLD_PX
             ? "width"
-            : deltaHeight > DELTA_DIMENSION_THRESHOLD
+            : deltaHeightPx > DELTA_DIMENSION_THRESHOLD_PX
               ? "height"
               : undefined;
 
         setImageObserved({
-          deltaWidth,
-          deltaHeight,
+          deltaWidthPx,
+          deltaHeightPx,
+          deltaWidthPercent,
+          deltaHeightPercent,
           changedDimension,
         });
       }
@@ -74,7 +80,7 @@ export function ImageContainer({
       target.setPointerCapture(event.pointerId);
 
       objectPositionStartRef.current = objectPosition;
-      pointerPositionStartRef.current = getPointerCoordinatesFromEvent({ event });
+      pointerPositionStartRef.current = getPointerCoordinatesFromEvent(event);
     },
     [objectPosition],
   );
@@ -83,20 +89,28 @@ export function ImageContainer({
     (event: PointerEvent<HTMLDivElement>) => {
       if (!isDraggingRef.current || imageObserved == null) return;
 
-      const pointerPosition = getPointerCoordinatesFromEvent({ event });
+      const { x: pointerPositionX, y: pointerPositionY } = getPointerCoordinatesFromEvent(event);
 
-      const deltaX = pointerPosition.x - (pointerPositionStartRef.current?.x ?? 0);
-      const deltaY = pointerPosition.y - (pointerPositionStartRef.current?.y ?? 0);
-      const deltaXPercent = (deltaX / imageObserved.deltaWidth) * 100;
-      const deltaYPercent = (deltaY / imageObserved.deltaHeight) * 100;
-      const maybeDeltaXPercent = imageObserved.changedDimension === "width" ? deltaXPercent : 0;
-      const maybeDeltaYPercent = imageObserved.changedDimension === "height" ? deltaYPercent : 0;
+      const deltaXPx = pointerPositionX - (pointerPositionStartRef.current?.x ?? 0);
+      const deltaYPx = pointerPositionY - (pointerPositionStartRef.current?.y ?? 0);
 
-      const prevObjectPosition = cssObjectPositionToCoordinates(objectPositionStartRef.current);
+      const deltaX =
+        imageObserved.changedDimension === "width"
+          ? clamp(toPercentage(deltaXPx, imageObserved.deltaWidthPx), -100, 100)
+          : 0;
 
-      const nextObjectPosition = coordinatesToCssObjectPosition({
-        x: prevObjectPosition.x - maybeDeltaXPercent,
-        y: prevObjectPosition.y - maybeDeltaYPercent,
+      const deltaY =
+        imageObserved.changedDimension === "height"
+          ? clamp(toPercentage(deltaYPx, imageObserved.deltaHeightPx), -100, 100)
+          : 0;
+
+      const { x: prevObjectPositionX, y: prevObjectPositionY } = cssObjectPositionStringToObject(
+        objectPositionStartRef.current,
+      );
+
+      const nextObjectPosition = cssObjectPositionObjectToString({
+        x: prevObjectPositionX - deltaX,
+        y: prevObjectPositionY - deltaY,
       });
 
       setObjectPosition(nextObjectPosition);
@@ -116,12 +130,8 @@ export function ImageContainer({
       ? "crosshair"
       : CURSOR_MAP[imageObserved.changedDimension];
 
-  const focalPoint = cssObjectPositionToCoordinates(objectPosition);
-
-  const h = `${detectProportionalImageHeight({ aspectRatio: naturalAspectRatio }) ?? 0}vmin`;
-  const w = `calc(${h} * ${naturalAspectRatio ?? 1})`;
-
-  console.log({ h, w, focalPoint });
+  const { x: objectPositionX, y: objectPositionY } =
+    cssObjectPositionStringToObject(objectPosition);
 
   return (
     <div
@@ -154,24 +164,24 @@ export function ImageContainer({
           viewBox={`0 0 1000 ${1000 / (aspectRatio ?? 1)}`}
         >
           <line
-            x1={`${focalPoint.x}%`}
+            x1={`${objectPositionX}%`}
             y1="0"
-            x2={`${focalPoint.x}%`}
+            x2={`${objectPositionX}%`}
             y2="100%"
             stroke="black"
-            stroke-width="1"
-            stroke-dasharray="4 4"
-            vector-effect="non-scaling-stroke"
+            strokeWidth="1"
+            strokeDasharray="4 4"
+            vectorEffect="non-scaling-stroke"
           />
           <line
             x1="0"
-            y1={`${focalPoint.y}%`}
+            y1={`${objectPositionY}%`}
             x2="100%"
-            y2={`${focalPoint.y}%`}
+            y2={`${objectPositionY}%`}
             stroke="black"
-            stroke-width="1"
-            stroke-dasharray="4 4"
-            vector-effect="non-scaling-stroke"
+            strokeWidth="1"
+            strokeDasharray="4 4"
+            vectorEffect="non-scaling-stroke"
           />
         </svg>
       </div>
@@ -183,9 +193,9 @@ export function ImageContainer({
         )}
         style={{
           aspectRatio: naturalAspectRatio ?? "auto",
-          top: `50%`,
-          left: `50%`,
-          transform: `translate(calc(-50% + 0px), calc(-50% + 0px))`,
+          top: `0%`,
+          left: `0%`,
+          transform: `translate(calc(${objectPositionX}% * (${imageObserved?.deltaWidthPercent ?? 0} / -100)), calc(${objectPositionY}% * (${imageObserved?.deltaHeightPercent ?? 0} / -100)))`,
           cursor,
         }}
       ></div>

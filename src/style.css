@@ -1,14 +1,17 @@
 @import "tailwindcss";
 
+@utility text-sideways-lr {
+  writing-mode: sideways-lr;
+}
+
+@utility text-sideways-rl {
+  writing-mode: sideways-rl;
+}
+
 :root {
-  --ratio-ultrawide: 21 / 9;
-  --ratio-wide: 16 / 9;
-  --ratio-photo-landscape: 3 / 2;
-  --ratio-classic-landscape: 4 / 3;
-  --ratio-square: 1 / 1;
-  --ratio-print: 5 / 4;
-  --ratio-social: 4 / 5;
-  --ratio-classic-portrait: 3 / 4;
-  --ratio-photo-portrait: 2 / 3;
-  --ratio-vertical: 9 / 16;
+  --uncropped-image-aspect-ratio: 1 / 1;
+  --cropped-image-aspect-ratio: 1 / 1;
+  --image-object-position: 50% 50%;
+  --image-delta-width-percent: 0;
+  --image-delta-height-percent: 0;
 }

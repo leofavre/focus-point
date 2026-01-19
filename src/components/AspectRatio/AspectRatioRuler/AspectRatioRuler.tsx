@@ -13,8 +13,8 @@ export function AspectRatioRuler({ aspectRatioList, className, ...rest }: Aspect
         return (
           <li
             key={name}
-            className="w-px flex flex-col justify-center absolute"
-            style={{ left, writingMode: "sideways-lr" }}
+            className={`w-px flex flex-col justify-center absolute text-sideways-lr`}
+            style={{ left }}
           >
             <span className="flex flew-row flex-nowrap items-center after:content-[''] after:mb-1 after:inline-block after:w-px after:h-3 after:bg-gray-500 after:align-middle">
               {name}

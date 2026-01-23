@@ -1,7 +1,10 @@
 import { clamp, roundWithTwoDecimals } from "../../../helpers";
-import type { Coordinates } from "../types";
+import type { ObjectPositionObject, ObjectPositionString } from "../../../types";
 
-export function cssObjectPositionObjectToString({ x, y }: Coordinates): string {
+export function cssObjectPositionObjectToString({
+  x,
+  y,
+}: ObjectPositionObject): ObjectPositionString {
   const clampedX = roundWithTwoDecimals(clamp(x, 0, 100));
   const clampedY = roundWithTwoDecimals(clamp(y, 0, 100));
 

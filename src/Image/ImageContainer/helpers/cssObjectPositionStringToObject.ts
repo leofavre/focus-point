@@ -1,6 +1,8 @@
-import type { Coordinates } from "../types";
+import type { ObjectPositionObject, ObjectPositionString } from "../../../types";
 
-export function cssObjectPositionStringToObject(string: string): Coordinates {
+export function cssObjectPositionStringToObject(
+  string: ObjectPositionString,
+): ObjectPositionObject {
   const [x, y] = string.split(" ");
 
   return {

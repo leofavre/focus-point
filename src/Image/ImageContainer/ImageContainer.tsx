@@ -22,11 +22,11 @@ export function ImageContainer({
   className,
   ...rest
 }: ImageContainerProps) {
-  const [objectPosition, setObjectPosition] = useState<string>(DEFAULT_OBJECT_POSITION);
+  const [objectPosition, setObjectPosition] = useState(DEFAULT_OBJECT_POSITION);
   const [imageObserved, setImageObserved] = useState<ImageObserved | null>(null);
 
-  const isDraggingRef = useRef<boolean>(false);
-  const objectPositionStartRef = useRef<string>(DEFAULT_OBJECT_POSITION);
+  const isDraggingRef = useRef(false);
+  const objectPositionStartRef = useRef(DEFAULT_OBJECT_POSITION);
   const pointerPositionStartRef = useRef<Coordinates | null>(null);
 
   useEffect(() => {

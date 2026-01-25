@@ -166,6 +166,7 @@ if (uploadBtn) {
 }
 
 const fileInput = document.getElementById("fileInput") as HTMLInputElement;
+
 if (fileInput) {
   fileInput.addEventListener("change", (e: Event) => {
     const target = e.target as HTMLInputElement;

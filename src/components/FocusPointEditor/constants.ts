@@ -1,4 +1,4 @@
-import type { ObjectPositionString } from "../types";
+import type { ObjectPositionString } from "../../types";
 
 export const IMAGE_AREA_RATIO = 2 / 5;
 

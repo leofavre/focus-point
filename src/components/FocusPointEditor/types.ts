@@ -1,5 +1,5 @@
 import type { RefObject, SyntheticEvent } from "react";
-import type { ObjectPositionString, StyleProps } from "../types";
+import type { ObjectPositionString, StyleProps } from "../../types";
 
 /**
  * Represents a point in 2D space.

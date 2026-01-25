@@ -1,12 +1,12 @@
 import type { ChangeEvent, FormEvent, SyntheticEvent } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AspectRatioRuler } from "./AspectRatio/AspectRatioRuler/AspectRatioRuler";
-import { AspectRatioSlider } from "./AspectRatio/AspectRatioSlider/AspectRatioSlider";
-import { useAspectRatioList } from "./AspectRatio/hooks";
-import { CodeSnippet } from "./CodeSnippet/CodeSnippet";
-import { DEFAULT_OBJECT_POSITION } from "./FocusPointEditor/constants";
-import { FocusPointEditor } from "./FocusPointEditor/FocusPointEditor";
-import { ImageUploader } from "./ImageUploader/ImageUploader";
+import { AspectRatioRuler } from "./components/AspectRatio/AspectRatioRuler/AspectRatioRuler";
+import { AspectRatioSlider } from "./components/AspectRatio/AspectRatioSlider/AspectRatioSlider";
+import { useAspectRatioList } from "./components/AspectRatio/hooks";
+import { CodeSnippet } from "./components/CodeSnippet/CodeSnippet";
+import { DEFAULT_OBJECT_POSITION } from "./components/FocusPointEditor/constants";
+import { FocusPointEditor } from "./components/FocusPointEditor/FocusPointEditor";
+import { ImageUploader } from "./components/ImageUploader/ImageUploader";
 
 /**
  * @todo

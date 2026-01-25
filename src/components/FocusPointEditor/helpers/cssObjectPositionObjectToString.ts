@@ -1,5 +1,5 @@
-import { clamp, roundWithTwoDecimals } from "../../helpers";
-import type { ObjectPositionObject, ObjectPositionString } from "../../types";
+import { clamp, roundWithTwoDecimals } from "../../../helpers";
+import type { ObjectPositionObject, ObjectPositionString } from "../../../types";
 
 /**
  * Converts an `{ x, y }` object (e.g. 0–100) into a CSS `object-position` string (`"x% y%"`).

@@ -1,4 +1,4 @@
-import type { ObjectPositionObject, ObjectPositionString } from "../../types";
+import type { ObjectPositionObject, ObjectPositionString } from "../../../types";
 
 /**
  * Parses a CSS `object-position` string (`"x% y%"`) into an `{ x, y }` object.

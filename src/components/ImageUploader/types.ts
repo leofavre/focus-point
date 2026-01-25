@@ -1,5 +1,5 @@
 import type { ChangeEvent, FormEvent, RefObject } from "react";
-import type { StyleProps } from "../types";
+import type { StyleProps } from "../../types";
 
 export type ImageUploaderProps = StyleProps & {
   ref?: RefObject<HTMLInputElement | null>;

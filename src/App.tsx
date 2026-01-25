@@ -88,7 +88,7 @@ export default function App() {
     <>
       <FocusPointEditor
         ref={imageRef}
-        className="fixed top-[calc(50%-2.5rem)] left-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="fixed inset-0"
         imageUrl={imageUrl}
         aspectRatio={aspectRatio}
         naturalAspectRatio={naturalAspectRatio}

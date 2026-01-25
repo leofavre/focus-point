@@ -136,71 +136,76 @@ export function FocusPointEditor({
 
   return (
     <div
-      className={clsx("touch-none select-none", className)}
-      style={{
-        aspectRatio: aspectRatio ?? "auto",
-        height: `${detectProportionalImageHeight({ aspectRatio }) ?? 0}vmin`,
-        cursor,
-      }}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
+      className={clsx("isolate flex items-center justify-center", className)}
+      style={{ containerType: "size" }}
     >
-      <div className="isolate w-full h-full relative overflow-hidden pointer-events-none touch-none select-none z-1">
-        <img
-          ref={ref}
-          src={imageUrl}
-          className="w-full h-full object-cover touch-none select-none"
-          style={{ objectPosition }}
-          onLoad={onImageLoad}
-          onError={onImageError}
-          aria-label="Image uploaded by the user"
-        />
-        {/* focal point */}
-        <svg
-          aria-hidden="true"
-          className="absolute top-0 left-0 w-full h-full pointer-events-none touch-none select-none z-2"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox={`0 0 1000 ${1000 / (aspectRatio ?? 1)}`}
-        >
-          <line
-            x1={`${objectPositionX}%`}
-            y1="0"
-            x2={`${objectPositionX}%`}
-            y2="100%"
-            stroke="black"
-            strokeWidth="1"
-            strokeDasharray="4 4"
-            vectorEffect="non-scaling-stroke"
-          />
-          <line
-            x1="0"
-            y1={`${objectPositionY}%`}
-            x2="100%"
-            y2={`${objectPositionY}%`}
-            stroke="black"
-            strokeWidth="1"
-            strokeDasharray="4 4"
-            vectorEffect="non-scaling-stroke"
-          />
-        </svg>
-      </div>
-      {/* ghost */}
       <div
-        className={clsx(
-          "absolute bg-cover bg-center bg-no-repeat opacity-50 top-0 left-0 z-0",
-          imageDimensionDelta?.changedDimension === "width" ? "h-full" : "w-full",
-        )}
+        className="relative touch-none select-none"
         style={{
-          aspectRatio: naturalAspectRatio ?? "auto",
-          backgroundImage: `url(${imageUrl})`,
-          transform: `translate(
+          aspectRatio: aspectRatio ?? "auto",
+          height: `${detectProportionalImageHeight({ aspectRatio }) ?? 0}cqmin`,
+          cursor,
+        }}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+      >
+        <div className="relative w-full h-full overflow-hidden pointer-events-none touch-none select-none z-1">
+          <img
+            ref={ref}
+            src={imageUrl}
+            className="w-full h-full object-cover touch-none select-none"
+            style={{ objectPosition }}
+            onLoad={onImageLoad}
+            onError={onImageError}
+            aria-label="Image uploaded by the user"
+          />
+          {/* focal point */}
+          <svg
+            aria-hidden="true"
+            className="absolute top-0 left-0 w-full h-full pointer-events-none touch-none select-none z-2"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox={`0 0 1000 ${1000 / (aspectRatio ?? 1)}`}
+          >
+            <line
+              x1={`${objectPositionX}%`}
+              y1="0"
+              x2={`${objectPositionX}%`}
+              y2="100%"
+              stroke="black"
+              strokeWidth="1"
+              strokeDasharray="4 4"
+              vectorEffect="non-scaling-stroke"
+            />
+            <line
+              x1="0"
+              y1={`${objectPositionY}%`}
+              x2="100%"
+              y2={`${objectPositionY}%`}
+              stroke="black"
+              strokeWidth="1"
+              strokeDasharray="4 4"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+        </div>
+        {/* ghost */}
+        <div
+          className={clsx(
+            "absolute bg-cover bg-center bg-no-repeat opacity-50 top-0 left-0 z-0",
+            imageDimensionDelta?.changedDimension === "width" ? "h-full" : "w-full",
+          )}
+          style={{
+            aspectRatio: naturalAspectRatio ?? "auto",
+            backgroundImage: `url(${imageUrl})`,
+            transform: `translate(
             ${(objectPositionX ?? 0) * ((imageDimensionDelta?.width.percent ?? 0) / -100)}%,
             ${(objectPositionY ?? 0) * ((imageDimensionDelta?.height.percent ?? 0) / -100)}%
           )`,
-          cursor,
-        }}
-      ></div>
+            cursor,
+          }}
+        ></div>
+      </div>
     </div>
   );
 }

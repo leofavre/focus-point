@@ -7,11 +7,3 @@
 @utility text-sideways-rl {
   writing-mode: sideways-rl;
 }
-
-:root {
-  --uncropped-image-aspect-ratio: 1 / 1;
-  --cropped-image-aspect-ratio: 1 / 1;
-  --image-object-position: 50% 50%;
-  --image-delta-width-percent: 0;
-  --image-delta-height-percent: 0;
-}

@@ -6,7 +6,7 @@ import { useAspectRatioList } from "./AspectRatio/hooks";
 import { CodeSnippet } from "./CodeSnippet/CodeSnippet";
 import { DEFAULT_OBJECT_POSITION } from "./FocusPointEditor/constants";
 import { FocusPointEditor } from "./FocusPointEditor/FocusPointEditor";
-import { ImageUploader } from "./Image/ImageUploader/ImageUploader";
+import { ImageUploader } from "./ImageUploader/ImageUploader";
 
 /**
  * @todo

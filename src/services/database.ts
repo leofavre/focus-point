@@ -1,4 +1,4 @@
-import type { UploadedImage } from "../Image/types";
+import type { UploadedImage } from "../types";
 
 const DB_NAME = "ImageManagerDB";
 const DB_VERSION = 1;

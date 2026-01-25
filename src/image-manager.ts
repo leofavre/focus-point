@@ -1,5 +1,5 @@
-import type { UploadedImage } from "./Image/types";
 import { deleteImageFromDB, getAllImages, initDB, saveImageToDB } from "./services/database";
+import type { UploadedImage } from "./types";
 
 // Convert file to base64
 function fileToBase64(file: File): Promise<string> {

@@ -161,7 +161,7 @@ export function FocusPointEditor({
           <PointerMarker style={{ left: `${objectPositionX}%`, top: `${objectPositionY}%` }} />
         )}
         {/* ghost */}
-        {false && (
+        {true && (
           <div
             className="ghost"
             style={{
@@ -169,7 +169,7 @@ export function FocusPointEditor({
                 ? { height: "100%" }
                 : { width: "100%" }),
               aspectRatio: naturalAspectRatio ?? "auto",
-              backgroundImage: `url(${imageUrl})`,
+              // backgroundImage: `url(${imageUrl})`,
               transform: `translate(
                 ${(objectPositionX ?? 0) * ((imageDimensionDelta?.width.percent ?? 0) / -100)}%,
                 ${(objectPositionY ?? 0) * ((imageDimensionDelta?.height.percent ?? 0) / -100)}%

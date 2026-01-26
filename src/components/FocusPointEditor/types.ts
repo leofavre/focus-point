@@ -44,6 +44,8 @@ export type FocusPointEditorProps = {
   aspectRatio?: number;
   naturalAspectRatio?: number;
   objectPosition: ObjectPositionString;
+  showPointMarker: boolean;
+  showGhostImage: boolean;
   onObjectPositionChange: (objectPosition: ObjectPositionString) => void;
   onImageLoad: (event: SyntheticEvent<HTMLImageElement>) => void;
   onImageError: (event: SyntheticEvent<HTMLImageElement>) => void;

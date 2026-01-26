@@ -1,7 +1,7 @@
 import type { PointerEvent } from "react";
 import { useCallback, useEffect, useEffectEvent, useRef, useState } from "react";
 import { clamp, toPercentage } from "../../helpers";
-import { PointerMarker } from "../PointerMarker/PointerMarker";
+import { PointMarker } from "../PointMarker/PointMarker";
 import { CURSOR_MAP } from "./constants";
 import { cssObjectPositionObjectToString } from "./helpers/cssObjectPositionObjectToString";
 import { cssObjectPositionStringToObject } from "./helpers/cssObjectPositionStringToObject";
@@ -18,6 +18,8 @@ export function FocusPointEditor({
   aspectRatio,
   naturalAspectRatio,
   objectPosition,
+  showPointMarker,
+  showGhostImage,
   onObjectPositionChange,
   onImageLoad,
   onImageError,
@@ -156,28 +158,31 @@ export function FocusPointEditor({
             aria-label="Image uploaded by the user"
           />
         </div>
-        {/* focal point */}
-        {true && (
-          <PointerMarker style={{ left: `${objectPositionX}%`, top: `${objectPositionY}%` }} />
-        )}
-        {/* ghost */}
-        {true && (
-          <div
-            className="ghost"
-            style={{
-              ...(imageDimensionDelta?.changedDimension === "width"
-                ? { height: "100%" }
-                : { width: "100%" }),
-              aspectRatio: naturalAspectRatio ?? "auto",
-              // backgroundImage: `url(${imageUrl})`,
-              transform: `translate(
+        <PointMarker
+          style={{
+            opacity: showPointMarker ? 1 : 0,
+            left: `${objectPositionX}%`,
+            top: `${objectPositionY}%`,
+          }}
+          aria-hidden={!showPointMarker}
+        />
+        <div
+          className="ghost"
+          style={{
+            ...(imageDimensionDelta?.changedDimension === "width"
+              ? { height: "100%" }
+              : { width: "100%" }),
+            aspectRatio: naturalAspectRatio ?? "auto",
+            // backgroundImage: `url(${imageUrl})`,
+            opacity: showGhostImage ? 0.25 : 0,
+            transform: `translate(
                 ${(objectPositionX ?? 0) * ((imageDimensionDelta?.width.percent ?? 0) / -100)}%,
                 ${(objectPositionY ?? 0) * ((imageDimensionDelta?.height.percent ?? 0) / -100)}%
               )`,
-              cursor,
-            }}
-          ></div>
-        )}
+            cursor,
+          }}
+          aria-hidden={!showGhostImage}
+        />
       </div>
     </div>
   );

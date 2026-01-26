@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
 
-export type PointerMarkerProps = {
+export type PointMarkerProps = {
   style?: CSSProperties;
 };

@@ -1,15 +1,15 @@
-import type { PointerMarkerProps } from "./types";
+import type { PointMarkerProps } from "./types";
 
-export function PointerMarker({ style }: PointerMarkerProps) {
+export function PointMarker({ style }: PointMarkerProps) {
   return (
     <div className="point-marker" style={style}>
-      <PointerMarkerIcon />
-      <PointerMarkerIcon />
+      <PointMarkerIcon />
+      <PointMarkerIcon />
     </div>
   );
 }
 
-function PointerMarkerIcon() {
+function PointMarkerIcon() {
   return (
     /** biome-ignore lint/a11y/noSvgWithoutTitle: Image hidden from screen readers */
     <svg viewBox="0 0 100 100" width="100" height="100" xmlns="http://www.w3.org/2000/svg">

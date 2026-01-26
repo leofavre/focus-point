@@ -149,7 +149,6 @@ export function FocusPointEditor({
         <div className="image-wrapper">
           <img
             ref={ref}
-            className="image"
             src={imageUrl}
             style={{ objectPosition }}
             onLoad={onImageLoad}

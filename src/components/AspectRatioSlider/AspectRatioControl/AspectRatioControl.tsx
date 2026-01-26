@@ -1,14 +1,14 @@
 import type { ChangeEvent } from "react";
 import { useCallback, useEffectEvent } from "react";
 import { toAspectRatio, toPreciseAspectRatio } from "../helpers";
-import type { AspectRatioSliderProps } from "./types";
+import type { AspectRatioControlProps } from "./types";
 
 export function AspectRatioControl({
   ref,
   aspectRatio,
   aspectRatioList,
   onAspectRatioChange,
-}: AspectRatioSliderProps) {
+}: AspectRatioControlProps) {
   const stableOnAspectRatioChange = useEffectEvent((aspectRatio: number) => {
     onAspectRatioChange?.(aspectRatio);
   });

@@ -218,7 +218,8 @@ html {
 
   .code-snippet {
     margin: auto auto 0 auto;
-    min-width: 550px;
+    width: 100%;
+    max-width: 550px;
     z-index: 2;
   }
 }

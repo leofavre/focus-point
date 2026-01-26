@@ -121,23 +121,6 @@ html {
   }
 }
 
-.aspect-ratio-control {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  width: 100%;
-
-  .control {
-    width: 100%;
-    background-color: #e5e7eb;
-    border-radius: 0.5rem;
-    appearance: none;
-    cursor: pointer;
-    accent-color: #2563eb;
-  }
-}
-
 .aspect-ratio-ruler {
   position: relative;
   display: flex;

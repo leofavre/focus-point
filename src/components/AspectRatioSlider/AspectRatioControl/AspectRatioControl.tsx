@@ -1,13 +1,32 @@
+import styled from "@emotion/styled";
 import type { ChangeEvent } from "react";
 import { useCallback, useEffectEvent } from "react";
 import { toAspectRatio, toPreciseAspectRatio } from "../helpers";
 import type { AspectRatioControlProps } from "./types";
+
+const Slider = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+
+  input {
+    width: 100%;
+    background-color: #e5e7eb;
+    border-radius: 0.5rem;
+    appearance: none;
+    cursor: pointer;
+    accent-color: #2563eb;
+  }
+`;
 
 export function AspectRatioControl({
   ref,
   aspectRatio,
   aspectRatioList,
   onAspectRatioChange,
+  ...rest
 }: AspectRatioControlProps) {
   const stableOnAspectRatioChange = useEffectEvent((aspectRatio: number) => {
     onAspectRatioChange?.(aspectRatio);
@@ -19,10 +38,9 @@ export function AspectRatioControl({
   }, []);
 
   return (
-    <div className="aspect-ratio-control">
+    <Slider {...rest}>
       <input
         ref={ref}
-        className="control"
         type="range"
         step={1}
         min={aspectRatioList.at(0)?.preciseValue}
@@ -36,6 +54,6 @@ export function AspectRatioControl({
           <option key={preciseValue} value={preciseValue} />
         ))}
       </datalist>
-    </div>
+    </Slider>
   );
 }

@@ -121,35 +121,6 @@ html {
   }
 }
 
-.code-snippet {
-  margin: 0;
-  box-sizing: border-box;
-  background-color: #111827;
-  padding: 1.5rem;
-  border-radius: 0.75rem;
-  box-shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  overflow: auto;
-
-  .line {
-    display: table-row;
-  }
-
-  .line-number {
-    display: table-cell;
-    padding-right: 1rem;
-    font-size: 0.875rem;
-    color: #6b7280;
-    text-align: right;
-    user-select: none;
-  }
-
-  .line-content {
-    display: table-cell;
-  }
-}
-
 .aspect-ratio-control {
   display: flex;
   flex-direction: column;
@@ -284,13 +255,6 @@ html {
     margin-right: auto;
     max-width: 1200px;
     z-index: 1;
-  }
-
-  .code-snippet {
-    margin: auto;
-    width: 100%;
-    max-width: 550px;
-    z-index: 2;
   }
 }
 

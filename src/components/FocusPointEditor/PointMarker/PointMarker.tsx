@@ -17,7 +17,7 @@ const PointerMarkerWrapper = styled.div`
   user-select: none;
   transition: opacity 0.25s ease;
   z-index: 2;
-  cursor: pointer;
+  cursor: grab;
 
   svg {
     position: absolute;

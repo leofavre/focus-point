@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import type { ChangeEvent } from "react";
 import { useCallback, useEffectEvent, useMemo } from "react";
-import { toAspectRatio, toPreciseAspectRatio } from "../helpers";
+import { toAspectRatio, toAspectRatioMoo, toLogPosition, toPreciseAspectRatio } from "../helpers";
 import type { AspectRatioControlProps } from "./types";
 
 const Slider = styled.div`
@@ -117,24 +117,56 @@ export function AspectRatioControl({
   onAspectRatioChange,
   ...rest
 }: AspectRatioControlProps) {
+  const minItem = aspectRatioList.at(0);
+  const maxItem = aspectRatioList.at(-1);
+  const currentPreciseAspectRatio = toPreciseAspectRatio(aspectRatio ?? 1);
+
   const stableOnAspectRatioChange = useEffectEvent((aspectRatio: number) => {
     onAspectRatioChange?.(aspectRatio);
   });
 
   const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    const aspectRatio = toAspectRatio(parseInt(event.target.value, 10));
+    const preciseAspectRatio = parseInt(event.target.value, 10);
+    const aspectRatio = toAspectRatio(preciseAspectRatio);
+
     stableOnAspectRatioChange(aspectRatio);
   }, []);
 
   const originalPosition = useMemo(() => {
-    const min = aspectRatioList.at(0)?.preciseValue ?? 1;
-    const max = aspectRatioList.at(-1)?.preciseValue ?? 1;
+    const min = minItem?.preciseValue ?? 1;
+    const max = maxItem?.preciseValue ?? 1;
     const original = aspectRatioList.find((item) => item.name === "original");
 
     if (!original) return 0;
 
     return ((original.preciseValue - min) / (max - min)) * 100;
+  }, [aspectRatioList, minItem, maxItem]);
+
+  const nextOriginalPosition = useMemo(() => {
+    return aspectRatioList.find((item) => item.name === "original")?.position;
   }, [aspectRatioList]);
+
+  const nextSelectedPosition = useMemo(() => {
+    return toLogPosition(aspectRatio ?? 1, minItem?.value ?? 1, maxItem?.value ?? 1);
+  }, [aspectRatio, minItem, maxItem]);
+
+  const nextSelectedAspectRatio = toAspectRatioMoo(
+    nextSelectedPosition,
+    minItem?.value ?? 1,
+    maxItem?.value ?? 1,
+  );
+
+  console.log({
+    originalPosition,
+    min: minItem?.preciseValue,
+    max: maxItem?.preciseValue,
+    currentPreciseAspectRatio,
+    nextOriginalPosition,
+    nextMinPosition: minItem?.position,
+    nextMaxPosition: maxItem?.position,
+    nextSelectedPosition,
+    nextSelectedAspectRatio,
+  });
 
   return (
     <Slider {...rest} css={{ "--original-position": originalPosition / 100 }}>
@@ -142,9 +174,9 @@ export function AspectRatioControl({
         ref={ref}
         type="range"
         step={1}
-        min={aspectRatioList.at(0)?.preciseValue}
-        max={aspectRatioList.at(-1)?.preciseValue}
-        value={toPreciseAspectRatio(aspectRatio ?? 1)}
+        min={minItem?.preciseValue}
+        max={maxItem?.preciseValue}
+        value={currentPreciseAspectRatio}
         onChange={handleChange}
         list="aspect-ratio"
       />

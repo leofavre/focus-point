@@ -4,15 +4,9 @@ import type { ImageUploaderProps } from "./types";
 const ImageUploaderForm = styled.form`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Label = styled.label`
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 500;
+  align-items: start;
+  justify-content: start;
+  gap: 0.5rem;
 `;
 
 const Control = styled.input`
@@ -40,7 +34,6 @@ const Control = styled.input`
 export function ImageUploader({ ref, onFormSubmit, onImageChange, ...rest }: ImageUploaderProps) {
   return (
     <ImageUploaderForm onSubmit={onFormSubmit} noValidate {...rest}>
-      <Label htmlFor="image-upload">Upload Image</Label>
       <Control
         ref={ref}
         id="image-upload"

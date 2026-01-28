@@ -7,6 +7,18 @@ const UI_STORE_NAME = "uiState";
 
 let db: IDBDatabase | null = null;
 
+/**
+ * Ensures the database is initialized and returns it.
+ * If not initialized, rejects the promise and throws.
+ */
+function assertDBInitialized(reject: (reason?: unknown) => void): IDBDatabase {
+  if (!db) {
+    reject(new Error("Database not initialized"));
+    throw new Error("Database not initialized"); // This never returns
+  }
+  return db;
+}
+
 export function initDB(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
@@ -33,12 +45,9 @@ export function initDB(): Promise<IDBDatabase> {
 
 export function saveImageToDB(imageData: StoredImage): Promise<IDBValidKey> {
   return new Promise((resolve, reject) => {
-    if (!db) {
-      reject(new Error("Database not initialized"));
-      return;
-    }
+    const database = assertDBInitialized(reject);
 
-    const transaction = db.transaction([STORE_NAME], "readwrite");
+    const transaction = database.transaction([STORE_NAME], "readwrite");
     const store = transaction.objectStore(STORE_NAME);
     const request = store.add(imageData);
 
@@ -49,12 +58,9 @@ export function saveImageToDB(imageData: StoredImage): Promise<IDBValidKey> {
 
 export function getAllImages(): Promise<StoredImage[]> {
   return new Promise((resolve, reject) => {
-    if (!db) {
-      reject(new Error("Database not initialized"));
-      return;
-    }
+    const database = assertDBInitialized(reject);
 
-    const transaction = db.transaction([STORE_NAME], "readonly");
+    const transaction = database.transaction([STORE_NAME], "readonly");
     const store = transaction.objectStore(STORE_NAME);
     const request: IDBRequest<StoredImage[]> = store.getAll();
 
@@ -65,12 +71,9 @@ export function getAllImages(): Promise<StoredImage[]> {
 
 export function deleteImageFromDB(id: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    if (!db) {
-      reject(new Error("Database not initialized"));
-      return;
-    }
+    const database = assertDBInitialized(reject);
 
-    const transaction = db.transaction([STORE_NAME], "readwrite");
+    const transaction = database.transaction([STORE_NAME], "readwrite");
     const store = transaction.objectStore(STORE_NAME);
     const request = store.delete(id);
 
@@ -81,12 +84,9 @@ export function deleteImageFromDB(id: string): Promise<void> {
 
 export function deleteAllImages(): Promise<void> {
   return new Promise((resolve, reject) => {
-    if (!db) {
-      reject(new Error("Database not initialized"));
-      return;
-    }
+    const database = assertDBInitialized(reject);
 
-    const transaction = db.transaction([STORE_NAME], "readwrite");
+    const transaction = database.transaction([STORE_NAME], "readwrite");
     const store = transaction.objectStore(STORE_NAME);
     const request = store.clear();
 
@@ -97,12 +97,9 @@ export function deleteAllImages(): Promise<void> {
 
 export function getImageById(id: string): Promise<StoredImage | undefined> {
   return new Promise((resolve, reject) => {
-    if (!db) {
-      reject(new Error("Database not initialized"));
-      return;
-    }
+    const database = assertDBInitialized(reject);
 
-    const transaction = db.transaction([STORE_NAME], "readonly");
+    const transaction = database.transaction([STORE_NAME], "readonly");
     const store = transaction.objectStore(STORE_NAME);
     const request = store.get(id);
 
@@ -113,12 +110,9 @@ export function getImageById(id: string): Promise<StoredImage | undefined> {
 
 export function getCurrentImage(): Promise<StoredImage | null> {
   return new Promise((resolve, reject) => {
-    if (!db) {
-      reject(new Error("Database not initialized"));
-      return;
-    }
+    const database = assertDBInitialized(reject);
 
-    const transaction = db.transaction([STORE_NAME], "readonly");
+    const transaction = database.transaction([STORE_NAME], "readonly");
     const store = transaction.objectStore(STORE_NAME);
     const index = store.index("timestamp");
     const request = index.openCursor(null, "prev");
@@ -137,12 +131,9 @@ export function getCurrentImage(): Promise<StoredImage | null> {
 
 export function updateImageInDB(id: string, updates: Partial<StoredImage>): Promise<void> {
   return new Promise((resolve, reject) => {
-    if (!db) {
-      reject(new Error("Database not initialized"));
-      return;
-    }
+    const database = assertDBInitialized(reject);
 
-    const transaction = db.transaction([STORE_NAME], "readwrite");
+    const transaction = database.transaction([STORE_NAME], "readwrite");
     const store = transaction.objectStore(STORE_NAME);
     const getRequest = store.get(id);
 
@@ -166,12 +157,9 @@ export function updateImageInDB(id: string, updates: Partial<StoredImage>): Prom
 
 export function getUIState(): Promise<StoredUI | null> {
   return new Promise((resolve, reject) => {
-    if (!db) {
-      reject(new Error("Database not initialized"));
-      return;
-    }
+    const database = assertDBInitialized(reject);
 
-    const transaction = db.transaction([UI_STORE_NAME], "readonly");
+    const transaction = database.transaction([UI_STORE_NAME], "readonly");
     const store = transaction.objectStore(UI_STORE_NAME);
     const request = store.get("current");
 
@@ -184,12 +172,9 @@ export function getUIState(): Promise<StoredUI | null> {
 
 export function saveUIState(uiState: StoredUI): Promise<IDBValidKey> {
   return new Promise((resolve, reject) => {
-    if (!db) {
-      reject(new Error("Database not initialized"));
-      return;
-    }
+    const database = assertDBInitialized(reject);
 
-    const transaction = db.transaction([UI_STORE_NAME], "readwrite");
+    const transaction = database.transaction([UI_STORE_NAME], "readwrite");
     const store = transaction.objectStore(UI_STORE_NAME);
     const request = store.put(uiState);
 
@@ -200,12 +185,9 @@ export function saveUIState(uiState: StoredUI): Promise<IDBValidKey> {
 
 export function updateUIState(updates: Partial<StoredUI>): Promise<void> {
   return new Promise((resolve, reject) => {
-    if (!db) {
-      reject(new Error("Database not initialized"));
-      return;
-    }
+    const database = assertDBInitialized(reject);
 
-    const transaction = db.transaction([UI_STORE_NAME], "readwrite");
+    const transaction = database.transaction([UI_STORE_NAME], "readwrite");
     const store = transaction.objectStore(UI_STORE_NAME);
     const getRequest = store.get("current");
 
@@ -236,12 +218,9 @@ export function updateUIState(updates: Partial<StoredUI>): Promise<void> {
 
 export function clearUIState(): Promise<void> {
   return new Promise((resolve, reject) => {
-    if (!db) {
-      reject(new Error("Database not initialized"));
-      return;
-    }
+    const database = assertDBInitialized(reject);
 
-    const transaction = db.transaction([UI_STORE_NAME], "readwrite");
+    const transaction = database.transaction([UI_STORE_NAME], "readwrite");
     const store = transaction.objectStore(UI_STORE_NAME);
     const request = store.clear();
 

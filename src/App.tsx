@@ -28,10 +28,12 @@ const DEFAULT_ASPECT_RATIO = 1;
  * - Handle errors.
  * - Persist images and their states in IndexedDB.
  * - Reset aspectRatio when a new image is uploaded.
+ * - Improve performance of the ghost image (how?)
  * - Document functions, hooks and components.
  * - Drag image to upload.
  * - Make shure focus is visible, specially in AspectRatioSlider.
  * - Make shure to use CSS variable for values used in calculations, specially in AspectRatioSlider.
+ *    - Maybe this will improve performance of the ghost image?
  * - CodeSnippet with copy button.
  * - Melhorize™ UI.
  *

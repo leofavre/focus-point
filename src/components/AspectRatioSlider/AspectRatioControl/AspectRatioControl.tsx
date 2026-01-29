@@ -1,4 +1,4 @@
-import type { ChangeEvent } from "react";
+import type { ChangeEvent, KeyboardEvent } from "react";
 import { useCallback, useEffectEvent, useMemo } from "react";
 import { toAspectRatio, toLogPosition } from "../helpers";
 import { Slider } from "./AspectRatioControl.styled";
@@ -34,11 +34,41 @@ export function AspectRatioControl({
 
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      const currentPosition = parseFloat(event.target.value) / PRECISION;
-      const aspectRatio = toAspectRatio(currentPosition, minValue, maxValue);
-      stableOnAspectRatioChange(aspectRatio);
+      const positionFromEvent = parseFloat(event.target.value) / PRECISION;
+      const nextAspectRatio = toAspectRatio(positionFromEvent, minValue, maxValue);
+      stableOnAspectRatioChange(nextAspectRatio);
     },
     [minValue, maxValue],
+  );
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLInputElement>) => {
+      const positionFromEvent =
+        event.target instanceof HTMLInputElement ? event.target.value : undefined;
+
+      if ((event.key !== "ArrowLeft" && event.key !== "ArrowRight") || positionFromEvent == null) {
+        return;
+      }
+
+      const positionFromEventNumber = parseFloat(positionFromEvent) / PRECISION;
+
+      const nextItem = aspectRatioList.find(({ position }) => position > positionFromEventNumber);
+
+      const previousItem = aspectRatioList.findLast(
+        ({ position }) => position < positionFromEventNumber,
+      );
+
+      if (event.key === "ArrowRight" && nextItem != null) {
+        const nextAspectRatio = toAspectRatio(nextItem.position, minValue, maxValue);
+        stableOnAspectRatioChange(nextAspectRatio);
+      }
+
+      if (event.key === "ArrowLeft" && previousItem != null) {
+        const previousAspectRatio = toAspectRatio(previousItem.position, minValue, maxValue);
+        stableOnAspectRatioChange(previousAspectRatio);
+      }
+    },
+    [aspectRatioList, minValue, maxValue],
   );
 
   return (
@@ -51,6 +81,7 @@ export function AspectRatioControl({
         max={Math.round(maxPosition * PRECISION)}
         value={Math.round(currentPosition * PRECISION)}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         list="aspect-ratio"
       />
       <datalist id="aspect-ratio">

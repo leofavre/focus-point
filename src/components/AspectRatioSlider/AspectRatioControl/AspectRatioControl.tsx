@@ -1,5 +1,6 @@
 import type { ChangeEvent, KeyboardEvent } from "react";
 import { useCallback, useEffectEvent, useMemo } from "react";
+import { POSITION_SNAP_THRESHOLD } from "../constants";
 import { toAspectRatio, toLogPosition } from "../helpers";
 import { Slider } from "./AspectRatioControl.styled";
 import type { AspectRatioControlProps } from "./types";
@@ -34,8 +35,10 @@ export function AspectRatioControl({
 
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      const positionFromEvent = parseFloat(event.target.value) / PRECISION;
-      const nextAspectRatio = toAspectRatio(positionFromEvent, minValue, maxValue);
+      const positionFromEvent = event.target.value;
+      const positionFromEventNumber = parseFloat(positionFromEvent) / PRECISION;
+      const nextAspectRatio = toAspectRatio(positionFromEventNumber, minValue, maxValue);
+
       stableOnAspectRatioChange(nextAspectRatio);
     },
     [minValue, maxValue],
@@ -46,16 +49,17 @@ export function AspectRatioControl({
       const positionFromEvent =
         event.target instanceof HTMLInputElement ? event.target.value : undefined;
 
-      if ((event.key !== "ArrowLeft" && event.key !== "ArrowRight") || positionFromEvent == null) {
-        return;
-      }
+      if (positionFromEvent == null) return;
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
 
       const positionFromEventNumber = parseFloat(positionFromEvent) / PRECISION;
 
-      const nextItem = aspectRatioList.find(({ position }) => position > positionFromEventNumber);
+      const nextItem = aspectRatioList.find(
+        ({ position }) => position > positionFromEventNumber + POSITION_SNAP_THRESHOLD,
+      );
 
       const previousItem = aspectRatioList.findLast(
-        ({ position }) => position < positionFromEventNumber,
+        ({ position }) => position < positionFromEventNumber - POSITION_SNAP_THRESHOLD,
       );
 
       if (event.key === "ArrowRight" && nextItem != null) {

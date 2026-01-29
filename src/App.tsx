@@ -30,7 +30,6 @@ const DEFAULT_ASPECT_RATIO = 1;
  * - Reset aspectRatio when a new image is uploaded.
  * - Document functions, hooks and components.
  * - Drag image to upload.
- * - Implement arrow/tab keyboard interactions in AspectRatioSlider.
  * - Make shure focus is visible, specially in AspectRatioSlider.
  * - Make shure to use CSS variable for values used in calculations, specially in AspectRatioSlider.
  * - CodeSnippet with copy button.

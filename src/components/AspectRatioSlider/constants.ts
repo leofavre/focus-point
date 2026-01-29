@@ -25,3 +25,6 @@ export const ASPECT_RATIO_LIST: AspectRatio[] = Object.entries(ASPECT_RATIO_MAP)
     position: toLogPosition(value, ASPECT_RATIO_MAP["9:16"], ASPECT_RATIO_MAP["4:1"]),
   }))
   .sort((a, b) => a.value - b.value);
+
+export const POSITION_REPLACEMENT_THRESHOLD = 0.01;
+export const POSITION_SNAP_THRESHOLD = POSITION_REPLACEMENT_THRESHOLD / 3;

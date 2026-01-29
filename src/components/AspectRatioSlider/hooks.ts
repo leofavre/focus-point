@@ -1,9 +1,7 @@
 import { useMemo } from "react";
-import { ASPECT_RATIO_LIST } from "./constants";
+import { ASPECT_RATIO_LIST, POSITION_REPLACEMENT_THRESHOLD } from "./constants";
 import { toLogPosition } from "./helpers";
 import type { AspectRatio } from "./types";
-
-const THRESHOLD = 0.01;
 
 export function useAspectRatioList(originalAspectRatioValue?: number) {
   return useMemo(() => {
@@ -25,8 +23,8 @@ export function useAspectRatioList(originalAspectRatioValue?: number) {
       .filter(
         ({ name, value }) =>
           (name === original.name && value === original.value) ||
-          value < original.value - THRESHOLD ||
-          value > original.value + THRESHOLD,
+          value < original.value - POSITION_REPLACEMENT_THRESHOLD ||
+          value > original.value + POSITION_REPLACEMENT_THRESHOLD,
       );
   }, [originalAspectRatioValue]);
 }

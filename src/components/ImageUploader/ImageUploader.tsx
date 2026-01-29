@@ -1,7 +1,12 @@
 import { Control, ImageUploaderForm } from "./ImageUploader.styled";
 import type { ImageUploaderProps } from "./types";
 
-export function ImageUploader({ ref, onFormSubmit, onImageChange, ...rest }: ImageUploaderProps) {
+export function ImageUploader({
+  ref,
+  onFormSubmit,
+  onImageChange,
+  ...rest
+}: ImageUploaderProps) {
   return (
     <ImageUploaderForm onSubmit={onFormSubmit} noValidate {...rest}>
       <Control

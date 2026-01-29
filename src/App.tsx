@@ -1,5 +1,5 @@
 import type { ChangeEvent, FormEvent } from "react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AppGrid, ToggleBar } from "./App.styled";
 import { AspectRatioSlider } from "./components/AspectRatioSlider/AspectRatioSlider";
 import { useAspectRatioList } from "./components/AspectRatioSlider/hooks";
@@ -8,6 +8,7 @@ import { DEFAULT_OBJECT_POSITION } from "./components/FocusPointEditor/constants
 import { FocusPointEditor } from "./components/FocusPointEditor/FocusPointEditor";
 import { ImageUploader } from "./components/ImageUploader/ImageUploader";
 import { ToggleButton } from "./components/ToggleButton/ToggleButton";
+import { createKeyboardShortcutHandler } from "./helpers";
 import { usePersistedUIState } from "./hooks";
 import { CodeSnippetToggleIcon } from "./icons/CodeSnippetToggleIcon";
 import { GhostImageToggleIcon } from "./icons/GhostImageToggleIcon";
@@ -25,11 +26,10 @@ const DEFAULT_ASPECT_RATIO = 1;
  *
  * - Handle loading.
  * - Handle errors.
- * - Reset aspectRatio when a new image is uploaded.
  * - Persist images and their states in IndexedDB.
+ * - Reset aspectRatio when a new image is uploaded.
  * - Document functions, hooks and components.
  * - Drag image to upload.
- * - Implement keyboard shortcuts to show or hide point marker, ghost image and code snippet.
  * - Implement arrow/tab keyboard interactions in AspectRatioSlider.
  * - Make shure focus is visible, specially in AspectRatioSlider.
  * - Make shure to use CSS variable for values used in calculations, specially in AspectRatioSlider.
@@ -52,6 +52,8 @@ const DEFAULT_ASPECT_RATIO = 1;
  * - Maybe make a native custom element?.
  */
 export default function App() {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const imageRef = useRef<HTMLImageElement>(null);
   const [imageFileName, setImageFileName] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -130,9 +132,43 @@ export default function App() {
     event.preventDefault();
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = createKeyboardShortcutHandler({
+      u: () => {
+        fileInputRef.current?.click();
+      },
+      a: () => {
+        setShowPointMarker((prev) => !prev);
+      },
+      p: () => {
+        setShowPointMarker((prev) => !prev);
+      },
+      s: () => {
+        setShowGhostImage((prev) => !prev);
+      },
+      l: () => {
+        setShowGhostImage((prev) => !prev);
+      },
+      d: () => {
+        setShowCodeSnippet((prev) => !prev);
+      },
+      c: () => {
+        setShowCodeSnippet((prev) => !prev);
+      },
+    });
+
+    console.log("added listeners once");
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [setShowCodeSnippet, setShowPointMarker, setShowGhostImage]);
+
   return (
     <AppGrid>
       <ImageUploader
+        ref={fileInputRef}
         onFormSubmit={handleFormSubmit}
         onImageChange={handleFileChange}
         data-component="ImageUploader"

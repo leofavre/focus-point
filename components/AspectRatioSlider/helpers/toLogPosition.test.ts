@@ -3,8 +3,8 @@ import { toAspectRatio } from "./toAspectRatio";
 import { toLogPosition } from "./toLogPosition";
 
 describe("toLogPosition", () => {
-  const min = 0.5625; // 9:16
-  const max = 4.0; // 4:1
+  const min = 9 / 16;
+  const max = 16 / 9;
 
   it("returns 0 when ratio equals min", () => {
     expect(toLogPosition(min, min, max)).toBe(0);
@@ -57,8 +57,8 @@ describe("toLogPosition", () => {
 });
 
 describe("toLogPosition and toAspectRatio round-trip", () => {
-  const min = 0.5625; // 9:16
-  const max = 4.0; // 4:1
+  const min = 9 / 16;
+  const max = 16 / 9;
 
   it("round-trips correctly for min value", () => {
     const original = min;

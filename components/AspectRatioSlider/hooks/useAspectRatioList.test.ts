@@ -91,7 +91,7 @@ describe("useAspectRatioList", () => {
   });
 
   it("handles original aspect ratio outside preset range (e.g. very landscape)", () => {
-    const veryLandscape = 6; // 6:1, wider than 4:1
+    const veryLandscape = 2; // 2:1, wider than 16:9
     const { result } = renderHook(() => useAspectRatioList(veryLandscape));
 
     const list = result.current;
@@ -103,7 +103,7 @@ describe("useAspectRatioList", () => {
 
   it("when originalAspectRatio is less than 9:16, includes original and places it at the minimum (portrait) end", () => {
     const nineSixteenths = 9 / 16;
-    const lessThanNineSixteen = nineSixteenths - 0.1; // e.g. ~0.4625
+    const lessThanNineSixteen = nineSixteenths - 0.1;
     const { result } = renderHook(() => useAspectRatioList(lessThanNineSixteen));
 
     const list = result.current;
@@ -117,17 +117,17 @@ describe("useAspectRatioList", () => {
     }
   });
 
-  it("when originalAspectRatio is more than 4:1, includes original and places it at the maximum (landscape) end", () => {
-    const fourToOne = 4 / 1;
-    const moreThanFourToOne = fourToOne + 1; // 5:1
-    const { result } = renderHook(() => useAspectRatioList(moreThanFourToOne));
+  it("when originalAspectRatio is more than 16:9, includes original and places it at the maximum (landscape) end", () => {
+    const sixteenNinths = 16 / 9;
+    const moreThanSixteenNinths = sixteenNinths + 1;
+    const { result } = renderHook(() => useAspectRatioList(moreThanSixteenNinths));
 
     const list = result.current;
     const original = list.find((r) => r.name === "original");
     expect(original).toBeDefined();
-    expect(original?.value).toBe(moreThanFourToOne);
-    expect(moreThanFourToOne).toBeGreaterThan(fourToOne);
-    expect(list[list.length - 1].value).toBe(moreThanFourToOne);
+    expect(original?.value).toBe(moreThanSixteenNinths);
+    expect(moreThanSixteenNinths).toBeGreaterThan(sixteenNinths);
+    expect(list[list.length - 1].value).toBe(moreThanSixteenNinths);
     for (let i = 1; i < list.length; i++) {
       expect(list[i].value).toBeGreaterThanOrEqual(list[i - 1].value);
     }

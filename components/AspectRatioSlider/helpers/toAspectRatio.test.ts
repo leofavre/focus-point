@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { toAspectRatio } from "./toAspectRatio";
 
 describe("toAspectRatio", () => {
-  const min = 0.5625; // 9:16
-  const max = 4.0; // 4:1
+  const min = 9 / 16;
+  const max = 16 / 9;
 
   it("returns min when position is 0", () => {
     expect(toAspectRatio(0, min, max)).toBeCloseTo(min, 10);

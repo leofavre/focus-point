@@ -110,7 +110,7 @@ Assert using the range input’s `min` and `max` attributes only (no need to ass
   2. Focus the aspect ratio slider
     - expect: Slider is focused
   3. Press ArrowRight repeatedly until slider value stops changing (reach right end)
-    - expect: Slider value equals input max (highest aspect ratio, e.g. 4:1)
+    - expect: Slider value equals input max
   4. Press ArrowLeft once
     - expect: Slider value changes (previous aspect ratio)
 

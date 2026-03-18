@@ -204,8 +204,8 @@ export async function waitForEditorReady(page: Page): Promise<void> {
     return el.complete && el.naturalWidth > 0
       ? Promise.resolve()
       : new Promise<void>((resolve) => {
-        el.addEventListener("load", () => resolve(), { once: true });
-      });
+          el.addEventListener("load", () => resolve(), { once: true });
+        });
   });
 }
 

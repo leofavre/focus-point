@@ -151,7 +151,7 @@ export function EditorContextProvider({ children }: PropsWithChildren) {
   }, [registerDragStartHandler, setShowCodeSnippetFromHook]);
 
   const handleImageError = useCallback(() => {
-    toast.error("Failed to load image");
+    toast.error("Failed to load image A");
     safeSetImage(null);
   }, []);
 

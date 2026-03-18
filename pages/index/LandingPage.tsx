@@ -18,7 +18,7 @@ export function LandingPage() {
   return (
     <LandingWrapper data-component="Landing">
       <ImageUploaderButton
-        size="medium"
+        size="large"
         label="Choose image"
         onImageUpload={handleImageUpload}
         onImageUploadError={handleImageUploadError}

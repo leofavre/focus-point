@@ -55,8 +55,17 @@ export const EditorControlsNav = styled.nav`
 export const LayoutGrid = styled.main`
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 12ch) minmax(0, 12ch) minmax(8rem, 50rem) minmax(0, 12ch) minmax(0, 12ch) minmax(0, 1fr);
-  grid-template-rows: 7rem 1fr auto;
+
+  grid-template-columns:
+    minmax(var(--base-line-05x), 1fr)
+    minmax(0, 12ch)
+    minmax(0, 12ch)
+    minmax(8rem, 50rem)
+    minmax(0, 12ch)
+    minmax(0, 12ch)
+    minmax(var(--base-line-05x), 1fr);
+
+  grid-template-rows: 8rem 1fr auto;
   overflow: hidden;
   gap: var(--base-line-05x);
   margin: 0;
@@ -76,8 +85,7 @@ export const LayoutGrid = styled.main`
     width: clamp(25rem, 100dvw, 40rem);
   }
 
-  [data-component="EditorControlsNav"] [data-component="AspectRatioSlider"],
-  > [data-component="AspectRatioSlider"] {
+  [data-component="AspectRatioSlider"] {
     position: relative;
     grid-row: 3;
     grid-column: 4;
@@ -86,32 +94,28 @@ export const LayoutGrid = styled.main`
     max-width: 1200px;
   }
 
-  [data-component="EditorControlsNav"] [data-component="FocalPointButton"],
-  > [data-component="FocalPointButton"] {
+  [data-component="FocalPointButton"] {
     position: relative;
     grid-row: 3;
     grid-column: 2;
     margin-bottom: auto;
   }
 
-  [data-component="EditorControlsNav"] [data-component="ImageOverflowButton"],
-  > [data-component="ImageOverflowButton"] {
+  [data-component="ImageOverflowButton"] {
     position: relative;
     grid-row: 3;
     grid-column: 3;
     margin-bottom: auto;
   }
 
-  [data-component="EditorControlsNav"] [data-component="CodeSnippetButton"],
-  > [data-component="CodeSnippetButton"] {
+  [data-component="CodeSnippetButton"] {
     position: relative;
     grid-row: 3;
     grid-column: 5;
     margin-bottom: auto;
   }
 
-  [data-component="EditorControlsNav"] [data-component="ImageUploaderButton"],
-  > [data-component="ImageUploaderButton"] {
+  [data-component="ImageUploaderButton"] {
     position: relative;
     grid-row: 3;
     grid-column: 6;
@@ -128,5 +132,36 @@ export const LayoutGrid = styled.main`
 
   [data-component="HowToUse"] {
     z-index: 3;
+  }
+
+  @media (aspect-ratio: 4/5), (max-aspect-ratio: 4/5) {
+    grid-template-columns:
+      minmax(var(--base-line-05x), 1fr)
+      minmax(0, 16ch)
+      minmax(0, 16ch)
+      minmax(0, 16ch)
+      minmax(0, 16ch)
+      minmax(var(--base-line-05x), 1fr);
+
+    grid-template-rows: 8rem 1fr auto 4rem;
+
+    [data-component="AspectRatioSlider"] {
+      grid-column: 2 / -2;
+    }
+
+    [data-component="FocalPointButton"],
+    [data-component="ImageOverflowButton"],
+    [data-component="CodeSnippetButton"],
+    [data-component="ImageUploaderButton"] {
+      grid-row: 4;
+    }
+
+    [data-component="CodeSnippetButton"] {
+      grid-column: 4;
+    }
+
+    [data-component="ImageUploaderButton"] {
+      grid-column: 5;
+    }
   }
 `;

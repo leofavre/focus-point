@@ -14,7 +14,6 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  *
  * ### MELHORIZE™ UI.
  *
- * - Maybe bug: failed to load image on mobile.
  * - Review Privacy page.
  * - Review Shortcuts page.
  * - Review Landing page.

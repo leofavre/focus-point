@@ -33,6 +33,7 @@ export function FocalPointEditor({
   const imageRef = useRef<HTMLImageElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
+  const activePointerIdRef = useRef<number | null>(null);
   const objectPositionStartRef = useRef(objectPosition);
   const pointerCoordinatesStartRef = useRef<Coordinates>(null);
 
@@ -96,8 +97,11 @@ export function FocalPointEditor({
 
   const handlePointerDown = useCallback(
     (event: PointerEvent<HTMLDivElement>) => {
+      if (isDraggingRef.current) return;
+
       event.preventDefault();
       isDraggingRef.current = true;
+      activePointerIdRef.current = event.pointerId;
 
       event.currentTarget.setPointerCapture(event.pointerId);
 
@@ -112,6 +116,7 @@ export function FocalPointEditor({
   const handlePointerMove = useCallback(
     (event: PointerEvent<HTMLDivElement>) => {
       if (!isDraggingRef.current || imageDimensionDelta == null) return;
+      if (event.pointerId !== activePointerIdRef.current) return;
 
       event.preventDefault();
 
@@ -146,13 +151,17 @@ export function FocalPointEditor({
   );
 
   const handlePointerUp = useCallback((event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerId !== activePointerIdRef.current) return;
     isDraggingRef.current = false;
+    activePointerIdRef.current = null;
 
     event.currentTarget.releasePointerCapture(event.pointerId);
   }, []);
 
   const handlePointerCancel = useCallback((event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerId !== activePointerIdRef.current) return;
     isDraggingRef.current = false;
+    activePointerIdRef.current = null;
 
     event.currentTarget.releasePointerCapture(event.pointerId);
   }, []);

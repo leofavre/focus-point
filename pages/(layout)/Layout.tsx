@@ -14,15 +14,15 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  *
  * ### MELHORIZE™ UI.
  *
- * - Mobile: use just the first pointer event for movements. No multi-touch.
  * - Mobile: no visible focus outline.
  * - OK icon for toaster.
  * - Error icon for toaster.
- * - Swap image icon.
+ * - Swap icon for Image button.
  * - Bigger selector thumbnail, square rotated 45 degrees.
  * - Review Privacy page.
  * - Review Shortcuts page.
  * - Shared style for text-only pages.
+ * - Review error pages.
  *
  * ### Multi-site set-up.
  *

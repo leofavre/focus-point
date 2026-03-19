@@ -14,6 +14,7 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  *
  * ### MELHORIZE™ UI.
  *
+ * - Bug: image won't load on landing page, but only happens in production.
  * - Mobile: no visible focus outline.
  * - OK icon for toaster.
  * - Error icon for toaster.
@@ -21,8 +22,12 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  * - Bigger selector thumbnail, square rotated 45 degrees.
  * - Review Privacy page.
  * - Review Shortcuts page.
+ * - Review error states.
  * - Shared style for text-only pages.
- * - Review error pages.
+ * - E2E: dragging an image makes the code snippet dialog disappear and image upload works.
+ * - E2E: `?code` is added to the URL when code snippet dialog opens.
+ * - E2E: `?code` is removed from the URL when code snippet dialog closes.
+ * - E2E: refreshing the image page with `?code` present in the URL opens the dialog.
  *
  * ### Multi-site set-up.
  *

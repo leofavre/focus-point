@@ -122,13 +122,17 @@ export function EditorContextProvider({ children }: PropsWithChildren) {
     setParamInUrl: setCodeParamInUrl,
   });
 
+  const stableSetShowCodeSnippetFromHook = useEffectEvent((next: boolean) => {
+    setShowCodeSnippetFromHook(next);
+  });
+
   const setShowCodeSnippet = useCallback(
     (valueOrUpdater: SetStateAction<boolean>) => {
-      const next =
-        typeof valueOrUpdater === "function" ? valueOrUpdater(showCodeSnippet) : valueOrUpdater;
-      setShowCodeSnippetFromHook(next);
+      stableSetShowCodeSnippetFromHook(
+        typeof valueOrUpdater === "function" ? valueOrUpdater(showCodeSnippet) : valueOrUpdater,
+      );
     },
-    [showCodeSnippet, setShowCodeSnippetFromHook],
+    [showCodeSnippet],
   );
 
   const [imageNotFoundConfirmed, setImageNotFoundConfirmed] = useState(false);
@@ -146,17 +150,11 @@ export function EditorContextProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     registerDragStartHandler(() => setShowCodeSnippetFromHook(false));
-    return () => registerDragStartHandler(null);
+
+    return () => {
+      registerDragStartHandler(null);
+    };
   }, [registerDragStartHandler, setShowCodeSnippetFromHook]);
-
-  const handleImageError = useCallback(() => {
-    toast.error("Failed to load image");
-    safeSetImage(null);
-  }, []);
-
-  const handleObjectPositionChange = useCallback((objectPosition: ObjectPositionString) => {
-    safeSetImage((prev) => (prev != null ? { ...prev, breakpoints: [{ objectPosition }] } : null));
-  }, []);
 
   useEffect(() => {
     return () => {
@@ -332,6 +330,15 @@ export function EditorContextProvider({ children }: PropsWithChildren) {
   );
 
   const isLoading = isOnImageRoute && image == null && !imageNotFoundConfirmed;
+
+  const handleImageError = useCallback(() => {
+    toast.error("Failed to load image");
+    safeSetImage(null);
+  }, []);
+
+  const handleObjectPositionChange = useCallback((objectPosition: ObjectPositionString) => {
+    safeSetImage((prev) => (prev != null ? { ...prev, breakpoints: [{ objectPosition }] } : null));
+  }, []);
 
   const value: EditorContextValue = {
     pathname,

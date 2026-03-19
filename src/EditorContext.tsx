@@ -265,7 +265,7 @@ export function EditorContextProvider({ children }: PropsWithChildren) {
   // We use this variable to force the image update because, in single image mode,
   // all images have the same id, so the effect doesn't trigger.
   const forcedRefresh =
-    PERSISTENCE_MODE === "singleImage" && pathname.startsWith("/image/") === true
+    PERSISTENCE_MODE === "singleImage"
       ? images?.find((img) => img.id === SINGLE_IMAGE_MODE_ID)?.createdAt
       : null;
 

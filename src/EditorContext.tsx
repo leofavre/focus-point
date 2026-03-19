@@ -134,7 +134,6 @@ export function EditorContextProvider({ children }: PropsWithChildren) {
   const [imageNotFoundConfirmed, setImageNotFoundConfirmed] = useState(false);
 
   const currentObjectPosition = image?.breakpoints?.[0]?.objectPosition;
-  const imageCount = images?.length;
 
   const stableImageRecordGetter = useEffectEvent((id: ImageId) => {
     return images?.find((img) => img.id === id);
@@ -261,6 +260,13 @@ export function EditorContextProvider({ children }: PropsWithChildren) {
     [imageId, aspectRatio, updateImage],
   );
 
+  const imageCount = images?.length;
+
+  const singleImageCreatedAt =
+    PERSISTENCE_MODE === "singleImage"
+      ? images?.find((img) => img.id === SINGLE_IMAGE_MODE_ID)?.createdAt
+      : null;
+
   useDebouncedEffect(
     () => {
       async function asyncSetImageState() {
@@ -320,7 +326,7 @@ export function EditorContextProvider({ children }: PropsWithChildren) {
       asyncSetImageState();
     },
     { timeout: IMAGE_LOAD_DEBOUNCE_MS },
-    [imageId, imageCount, setAspectRatio],
+    [imageId, imageCount, singleImageCreatedAt, setAspectRatio],
   );
 
   const isLoading = isOnImageRoute && image == null && !imageNotFoundConfirmed;

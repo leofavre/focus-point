@@ -94,28 +94,28 @@ export const LayoutGrid = styled.main`
     max-width: 1200px;
   }
 
-  [data-component="FocalPointButton"] {
+  [data-component="EditorControlsNav"] [data-component="FocalPointButton"] {
     position: relative;
     grid-row: 3;
     grid-column: 2;
     margin-bottom: auto;
   }
 
-  [data-component="ImageOverflowButton"] {
+  [data-component="EditorControlsNav"] [data-component="ImageOverflowButton"] {
     position: relative;
     grid-row: 3;
     grid-column: 3;
     margin-bottom: auto;
   }
 
-  [data-component="CodeSnippetButton"] {
+  [data-component="EditorControlsNav"] [data-component="CodeSnippetButton"] {
     position: relative;
     grid-row: 3;
     grid-column: 5;
     margin-bottom: auto;
   }
 
-  [data-component="ImageUploaderButton"] {
+  [data-component="EditorControlsNav"] [data-component="ImageUploaderButton"] {
     position: relative;
     grid-row: 3;
     grid-column: 6;
@@ -150,18 +150,18 @@ export const LayoutGrid = styled.main`
       margin-left: calc(var(--thumb-radius) * -1);
     }
 
-    [data-component="FocalPointButton"],
-    [data-component="ImageOverflowButton"],
-    [data-component="CodeSnippetButton"],
-    [data-component="ImageUploaderButton"] {
+    [data-component="EditorControlsNav"] [data-component="FocalPointButton"],
+    [data-component="EditorControlsNav"] [data-component="ImageOverflowButton"],
+    [data-component="EditorControlsNav"] [data-component="CodeSnippetButton"],
+    [data-component="EditorControlsNav"] [data-component="ImageUploaderButton"] {
       grid-row: 4;
     }
 
-    [data-component="CodeSnippetButton"] {
+    [data-component="EditorControlsNav"] [data-component="CodeSnippetButton"] {
       grid-column: 4;
     }
 
-    [data-component="ImageUploaderButton"] {
+    [data-component="EditorControlsNav"] [data-component="ImageUploaderButton"] {
       grid-column: 5;
       display: none;
     }

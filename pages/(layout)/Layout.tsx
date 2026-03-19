@@ -14,6 +14,9 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  *
  * ### MELHORIZE™ UI.
  *
+ * - OK icon for toaster.
+ * - Error icon for toaster.
+ * - Bigger selector thumbnail, square rotated 45 degrees.
  * - Review Privacy page.
  * - Review Shortcuts page.
  * - Shared style for text-only pages.
@@ -29,8 +32,6 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  *
  * ### Advanced functionality
  *
- * - OK icon.
- * - Error icon.
  * - Explanatory video.
  * - Dark mode.
  * - Support videos.
@@ -40,6 +41,7 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  * - Multiple images with "file system".
  * - Maybe make a browser extension?
  * - Maybe make a native custom element?
+ * - Maybe use AI to auto-detect the focal point?
  * - Flaky E2E tests are really bothering me.
  */
 export default function Layout({ children }: PropsWithChildren) {

@@ -15,7 +15,6 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  * ### MELHORIZE™ UI.
  *
  * - Mobile: remove visible focus outline, at least for the image editor.
- * - Mobile: prevent long click on image.
  * - OK icon for toaster.
  * - Error icon for toaster.
  * - Swap icon for Image button.

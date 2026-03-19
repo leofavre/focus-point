@@ -16,6 +16,8 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  *
  * - OK icon for toaster.
  * - Error icon for toaster.
+ * - Align toaster text to the left.
+ * - Use max-width for toaster.
  * - Swap icon for Image button.
  * - Bigger selector thumbnail, square rotated 45 degrees.
  * - Review Privacy page.

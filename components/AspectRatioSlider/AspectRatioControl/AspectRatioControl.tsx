@@ -31,7 +31,7 @@ export function AspectRatioControl({
   const maxPosition = maxItem?.position ?? 1;
   const isHydrated = useHydrated();
   const initialPosition = useMemo(() => {
-    return aspectRatioList.find((item) => item.name === "original")?.position;
+    return aspectRatioList.find((item) => item.key === "original")?.position;
   }, [aspectRatioList]);
 
   const currentPosition = useMemo(() => {
@@ -46,7 +46,7 @@ export function AspectRatioControl({
       Math.abs(curr.value - aspectRatio) < Math.abs(prev.value - aspectRatio) ? curr : prev,
     );
 
-    return closest.name;
+    return closest.key;
   }, [aspectRatio, aspectRatioList]);
 
   const stableOnAspectRatioChange = useEffectEvent((aspectRatio: number) => {

@@ -21,8 +21,9 @@ const ASPECT_RATIO_MAP: Record<string, number> = {
 };
 
 const ASPECT_RATIO_LIST: PartialAspectRatio[] = Object.entries(ASPECT_RATIO_MAP)
-  .map(([name, value]) => ({
-    name,
+  .map(([key, value]) => ({
+    key,
+    displayName: key,
     value,
   }))
   .sort((a, b) => a.value - b.value);
@@ -43,8 +44,12 @@ export function useAspectRatioList(originalAspectRatioValue?: number): AspectRat
     const initialMinValue = ASPECT_RATIO_LIST[0].value;
     const initialMaxValue = ASPECT_RATIO_LIST[ASPECT_RATIO_LIST.length - 1].value;
 
+    const originalDisplayName = ASPECT_RATIO_LIST.find(
+      (as) => areAspectRatioValuesSimilar(as.value, originalAspectRatioValue) === false,
+    )?.displayName;
+
     const original: PartialAspectRatio | undefined = originalAspectRatioValue
-      ? { name: "original", value: originalAspectRatioValue }
+      ? { key: "original", displayName: originalDisplayName ?? "", value: originalAspectRatioValue }
       : undefined;
 
     const minValue = Math.min(
@@ -63,14 +68,23 @@ export function useAspectRatioList(originalAspectRatioValue?: number): AspectRat
         ...partialAspectRatio,
         position: toLogPosition(partialAspectRatio.value, minValue, maxValue),
       }))
-      .filter(({ name, value }) => {
+      .filter(({ key, value }) => {
         if (original == null) return true;
 
         return (
-          (name === original.name && value === original.value) ||
-          value < original.value - POSITION_REPLACEMENT_THRESHOLD ||
-          value > original.value + POSITION_REPLACEMENT_THRESHOLD
+          (key === original.key && value === original.value) ||
+          areAspectRatioValuesSimilar(value, original.value)
         );
       });
   }, [originalAspectRatioValue]);
+}
+
+function areAspectRatioValuesSimilar(aspectRatio1Value?: number, aspectRatio2Value?: number) {
+  if (aspectRatio1Value == null) return undefined;
+  if (aspectRatio2Value == null) return undefined;
+
+  return (
+    aspectRatio1Value < aspectRatio2Value - POSITION_REPLACEMENT_THRESHOLD ||
+    aspectRatio1Value > aspectRatio2Value + POSITION_REPLACEMENT_THRESHOLD
+  );
 }

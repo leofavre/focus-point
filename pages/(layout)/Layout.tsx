@@ -16,7 +16,6 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  *
  * - Mobile: remove visible focus outline, at least for the image editor.
  * - Mobile: prevent long click on image.
- * - Remove the "original" text from the slider. Use the substituted aspect ratio if there is one.
  * - OK icon for toaster.
  * - Error icon for toaster.
  * - Swap icon for Image button.

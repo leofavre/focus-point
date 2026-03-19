@@ -140,7 +140,6 @@ export const LayoutGrid = styled.main`
       minmax(0, 16ch)
       minmax(0, 16ch)
       minmax(0, 16ch)
-      minmax(0, 16ch)
       minmax(var(--base-line-05x), 1fr);
 
     grid-template-rows: 8rem 1fr auto 4rem;
@@ -164,6 +163,7 @@ export const LayoutGrid = styled.main`
 
     [data-component="ImageUploaderButton"] {
       grid-column: 5;
+      display: none;
     }
   }
 `;

@@ -14,15 +14,16 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  *
  * ### MELHORIZE™ UI.
  *
- * - Mobile: remove visible focus outline.
+ * - Mobile: remove visible focus outline, at least for the image editor.
  * - Mobile: prevent long click on image.
+ * - Remove the "original" text from the slider. Use the substituted aspect ratio if there is one.
  * - OK icon for toaster.
  * - Error icon for toaster.
  * - Swap icon for Image button.
  * - Bigger selector thumbnail, square rotated 45 degrees.
  * - Review Privacy page.
  * - Review Shortcuts page.
- * - Review error states.
+ * - Review not found states.
  * - Shared style for text-only pages.
  *
  * ### Multi-site set-up.

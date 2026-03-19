@@ -11,10 +11,6 @@ export const Wrapper = styled.div`
   box-sizing: border-box;
   height: 6.5rem;
 
-  @container aspect-ratio-slider (width < 37.5rem) {
-    height: 4.5rem;
-  }
-
   [data-component="AspectRatioControl"] {
     position: relative;
   }
@@ -27,7 +23,6 @@ export const Wrapper = styled.div`
     pointer-events: none;
 
     @container aspect-ratio-slider (width < 37.5rem) {
-      [data-name="original"],
       [data-name="3:4"],
       [data-name="3:5"],
       [data-name="4:3"],

@@ -9,8 +9,8 @@ export function getCreateImageStateErrorMessage(reason: CreateImageStateReason):
       return "Invalid URL";
     case "ImageLoadFailed":
     case "BlobCreateFailed":
-      return "Failed to load image C";
+      return "Failed to load image";
     default:
-      return "Failed to load image D";
+      return "Failed to load image";
   }
 }

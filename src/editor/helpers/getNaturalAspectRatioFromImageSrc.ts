@@ -17,7 +17,7 @@ export function getNaturalAspectRatioFromImageSrc(
   const raw = new Promise<number>((resolve, reject) => {
     const img = new Image();
     img.onload = () => resolve(img.naturalWidth / img.naturalHeight);
-    img.onerror = () => reject(new Error("Failed to load image B"));
+    img.onerror = () => reject(new Error("Failed to load image"));
     img.src = url;
   });
   return resultFromPromise(raw, "ImageLoadFailed");

@@ -151,7 +151,7 @@ export function EditorContextProvider({ children }: PropsWithChildren) {
   }, [registerDragStartHandler, setShowCodeSnippetFromHook]);
 
   const handleImageError = useCallback(() => {
-    toast.error("Failed to load image A");
+    toast.error("Failed to load image");
     safeSetImage(null);
   }, []);
 
@@ -307,6 +307,7 @@ export function EditorContextProvider({ children }: PropsWithChildren) {
         }
 
         const nextImageState = result.accepted;
+
         safeSetImage(nextImageState);
         setAspectRatio(
           imageRecord.lastKnownAspectRatio ??

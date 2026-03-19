@@ -325,7 +325,7 @@ export function EditorContextProvider({ children }: PropsWithChildren) {
 
       asyncSetImageState();
     },
-    { timeout: IMAGE_LOAD_DEBOUNCE_MS },
+    { timeout: IMAGE_LOAD_DEBOUNCE_MS, ignoreInitialCall: false },
     [imageId, imageCount, forcedRefresh, setAspectRatio],
   );
 

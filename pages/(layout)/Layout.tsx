@@ -14,7 +14,6 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  *
  * ### MELHORIZE™ UI.
  *
- * - Bug: image won't load on landing page, but only happens in production.
  * - Mobile: no visible focus outline.
  * - OK icon for toaster.
  * - Error icon for toaster.

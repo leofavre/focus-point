@@ -14,6 +14,9 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  *
  * ### MELHORIZE™ UI.
  *
+ * - Mobile: no need to change the color of the disabled slider.
+ * - When choosing an image with an empty database and the message "start by choosing an image" appears, after selecting the image we briefly see "image not found".
+ * - Remove focus-visible on mobile, at least for the image.
  * - OK icon for toaster.
  * - Error icon for toaster.
  * - Align toaster text to the left.

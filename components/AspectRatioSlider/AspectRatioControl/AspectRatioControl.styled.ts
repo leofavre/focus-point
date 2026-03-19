@@ -21,6 +21,7 @@ export const Slider = styled.div`
     appearance: none;
     cursor: pointer;
     outline: none;
+    opacity: 1;
 
     &:focus-visible::before {
       content: "";
@@ -132,5 +133,9 @@ export const Slider = styled.div`
       outline: none;
       border: none;
     }
+  }
+
+  input:disabled {
+    opacity: 1;
   }
 `;

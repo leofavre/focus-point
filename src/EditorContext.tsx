@@ -262,6 +262,8 @@ export function EditorContextProvider({ children }: PropsWithChildren) {
 
   const imageCount = images?.length;
 
+  // We use this variable to force the image update because, in single image mode,
+  // all images have the same id, so the effect doesn't trigger.
   const singleImageCreatedAt =
     PERSISTENCE_MODE === "singleImage"
       ? images?.find((img) => img.id === SINGLE_IMAGE_MODE_ID)?.createdAt

@@ -65,7 +65,7 @@ export const LayoutGrid = styled.main`
     minmax(0, 14ch)
     minmax(var(--base-line-05x), 1fr);
 
-  grid-template-rows: 8rem 1fr auto;
+  grid-template-rows: 8rem 1fr 6rem;
   overflow: hidden;
   gap: var(--base-line-05x);
   margin: 0;

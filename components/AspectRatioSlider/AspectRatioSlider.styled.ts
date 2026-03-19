@@ -9,7 +9,7 @@ export const Container = styled.div`
 export const Wrapper = styled.div`
   width: 100%;
   box-sizing: border-box;
-  height: 5rem;
+  height: 4rem;
 
   [data-component="AspectRatioControl"] {
     position: relative;

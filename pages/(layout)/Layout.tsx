@@ -14,7 +14,8 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  *
  * ### MELHORIZE™ UI.
  *
- * - Mobile: no visible focus outline.
+ * - Mobile: remove visible focus outline.
+ * - Mobile: prevent long click on image.
  * - OK icon for toaster.
  * - Error icon for toaster.
  * - Swap icon for Image button.
@@ -23,10 +24,6 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  * - Review Shortcuts page.
  * - Review error states.
  * - Shared style for text-only pages.
- * - E2E: dragging an image makes the code snippet dialog disappear and image upload works.
- * - E2E: `?code` is added to the URL when code snippet dialog opens.
- * - E2E: `?code` is removed from the URL when code snippet dialog closes.
- * - E2E: refreshing the image page with `?code` present in the URL opens the dialog.
  *
  * ### Multi-site set-up.
  *

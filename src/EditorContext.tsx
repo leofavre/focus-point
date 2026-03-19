@@ -264,8 +264,8 @@ export function EditorContextProvider({ children }: PropsWithChildren) {
 
   // We use this variable to force the image update because, in single image mode,
   // all images have the same id, so the effect doesn't trigger.
-  const singleImageCreatedAt =
-    PERSISTENCE_MODE === "singleImage"
+  const forcedRefresh =
+    PERSISTENCE_MODE === "singleImage" && pathname.startsWith("/image/") === true
       ? images?.find((img) => img.id === SINGLE_IMAGE_MODE_ID)?.createdAt
       : null;
 
@@ -328,7 +328,7 @@ export function EditorContextProvider({ children }: PropsWithChildren) {
       asyncSetImageState();
     },
     { timeout: IMAGE_LOAD_DEBOUNCE_MS },
-    [imageId, imageCount, singleImageCreatedAt, setAspectRatio],
+    [imageId, imageCount, forcedRefresh, setAspectRatio],
   );
 
   const isLoading = isOnImageRoute && image == null && !imageNotFoundConfirmed;

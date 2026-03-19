@@ -111,7 +111,7 @@ export const Control = styled.span`
   }
 
   /* calc won't work in the container query */
-  @container (max-width: 6rem) {
+  @container (max-width: 8rem) {
     padding: 0 calc(var(--base-line-025x) * var(--scale));
     & > svg { margin: auto; }
     & > span { display: none; }
@@ -119,7 +119,7 @@ export const Control = styled.span`
 
   /* calc won't work in the container query */
   ${Wrapper}[data-scale=2] & {
-    @container (max-width: 12rem) {
+    @container (max-width: 16rem) {
       padding: 0 calc(var(--base-line-025x) * var(--scale));
       & > svg { margin: auto; }
       & > span { display: none; }

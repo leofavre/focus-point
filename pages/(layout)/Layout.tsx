@@ -16,14 +16,10 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  *
  * - Review Privacy page.
  * - Review Shortcuts page.
- * - Review Landing page.
  * - Shared style for text-only pages.
- * - Flaky E2E tests are really bothering me.
  *
  * ### Multi-site set-up.
  *
- * - Explanatory video.
- * - OK icon.
  * - Text for devs.
  * - Text for designers.
  * - Cross-linking between sites.
@@ -33,13 +29,18 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  *
  * ### Advanced functionality
  *
+ * - OK icon.
+ * - Error icon.
+ * - Explanatory video.
  * - Dark mode.
  * - Support videos.
- * - Use the native API for page transitions.
  * - Support external image sources.
+ * - Support breakpoints.
+ * - Use the native API for page transitions.
  * - Multiple images with "file system".
  * - Maybe make a browser extension?
  * - Maybe make a native custom element?
+ * - Flaky E2E tests are really bothering me.
  */
 export default function Layout({ children }: PropsWithChildren) {
   const { handleImageUpload, onDragStart } = useAppContext();

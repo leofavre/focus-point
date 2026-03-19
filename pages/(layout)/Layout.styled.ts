@@ -58,11 +58,11 @@ export const LayoutGrid = styled.main`
 
   grid-template-columns:
     minmax(var(--base-line-05x), 1fr)
-    minmax(0, 12ch)
-    minmax(0, 12ch)
+    minmax(0, 14ch)
+    minmax(0, 14ch)
     minmax(8rem, 50rem)
-    minmax(0, 12ch)
-    minmax(0, 12ch)
+    minmax(0, 14ch)
+    minmax(0, 14ch)
     minmax(var(--base-line-05x), 1fr);
 
   grid-template-rows: 8rem 1fr auto;
@@ -147,6 +147,8 @@ export const LayoutGrid = styled.main`
 
     [data-component="AspectRatioSlider"] {
       grid-column: 2 / -2;
+      width: calc(100% + var(--thumb-diameter));
+      margin-left: calc(var(--thumb-radius) * -1);
     }
 
     [data-component="FocalPointButton"],

@@ -14,4 +14,9 @@ export const StyledTitle = styled.h1`
   margin: 0;
   margin-top: var(--base-line-05x);
   padding: 0;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 `;

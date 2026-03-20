@@ -31,7 +31,8 @@ export const Wrapper = styled.div`
     padding: var(--base-line-025x);
     padding-inline-start: var(--base-line-05x);
     min-height: 5ch;
-    max-width: 35ch;
+    width: max-content;
+    max-width: 36ch;
     color: inherit;
   }
 

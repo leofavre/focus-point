@@ -60,7 +60,7 @@ export const LayoutGrid = styled.main`
     minmax(var(--base-line-05x), 1fr)
     minmax(0, 9rem)
     minmax(0, 9rem)
-    minmax(8rem, 50rem)
+    minmax(12rem, 50rem)
     minmax(0, 9rem)
     minmax(0, 9rem)
     minmax(var(--base-line-05x), 1fr);

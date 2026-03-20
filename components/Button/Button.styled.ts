@@ -11,6 +11,26 @@ export const Wrapper = styled.button`
   --transform-in: translate(0, 0);
   --transform-out: translate(var(--shadow-offset), var(--shadow-offset));
 
+  --clip-path-in: polygon(
+    var(--shadow-offset) var(--shadow-offset),
+    100% var(--shadow-offset),
+    100% var(--shadow-offset),
+    100% 100%,
+    var(--shadow-offset) 100%,
+    var(--shadow-offset) 100%,
+    var(--shadow-offset) var(--shadow-offset)
+  );
+
+  --clip-path-out: polygon(
+    0% 0%,
+    calc(100% - var(--shadow-offset)) 0%,
+    100% var(--shadow-offset),
+    100% 100%,
+    var(--shadow-offset) 100%,
+    0% calc(100% - var(--shadow-offset)),
+    0% 0%
+  );
+
   --button-color-solid: var(--color-neutral);
   --button-color-background: var(--color-zero);
   --button-color-hover: var(--color-neutral-tint-10);
@@ -131,12 +151,34 @@ export const Control = styled.span`
 export const Shadow = styled.span`
   display: block;
   position: absolute;
-  inset: 0;
+  inset: calc(var(--shadow-offset) * -1) 0 0 calc(var(--shadow-offset) * -1);
+  transition: clip-path 66ms ease-in-out;
   transform: var(--transform-out);
+  clip-path: var(--clip-path-out);
   background-color: var(--button-color-solid);
 
   ${Wrapper}:disabled & {
     background-color: var(--button-color-disabled);
+  }
+
+  @media (hover: hover) {  
+    ${Wrapper}:active:not(:disabled) & {
+      clip-path: var(--clip-path-in);
+    }
+  }
+
+  ${Wrapper}:not([data-toggleable]):active & {
+    clip-path: var(--clip-path-in);
+  }
+
+  ${Wrapper}[data-toggleable][aria-pressed="true"] & {
+    clip-path: var(--clip-path-in);
+
+    @media (hover: hover) {
+      ${Wrapper}:active:not(:disabled) & {
+        clip-path: var(--clip-path-out);
+      }
+    }
   }
 `;
 

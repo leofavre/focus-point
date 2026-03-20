@@ -14,7 +14,6 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  *
  * ### MELHORIZE™ UI.
  *
- * - Bigger selector thumbnail, square rotated 45 degrees.
  * - Review Privacy page.
  * - Review Shortcuts page.
  * - Review not found states.
@@ -24,9 +23,9 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  *
  * - Text for devs.
  * - Text for designers.
- * - Cross-linking between sites.
+ * - Buy domains (or domain).
+ * - Maybe cross-linking between sites (if more than one).
  * - GDPR compliant analytics.
- * - Buy domains.
  * - Set up DNS.
  *
  * ### Advanced functionality

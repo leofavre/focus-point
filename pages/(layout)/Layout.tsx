@@ -14,7 +14,6 @@ import { HeaderLinks, LayoutGrid, LayoutHeader, PrivacyLink } from "./Layout.sty
  *
  * ### MELHORIZE™ UI.
  *
- * - When choosing an image with an empty database and the message "start by choosing an image" appears, after selecting the image we briefly see "image not found".
  * - Bigger selector thumbnail, square rotated 45 degrees.
  * - Review Privacy page.
  * - Review Shortcuts page.

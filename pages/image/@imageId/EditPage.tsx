@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useEffectEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { CodeSnippet } from "@/components/CodeSnippet/CodeSnippet";
 import { CodeSnippetHeader } from "@/components/CodeSnippetHeader/CodeSnippetHeader";
@@ -93,7 +93,9 @@ export function EditPage() {
           onImageUploadError={handleImageUploadError}
           icon="add"
         />
-        <h3>{isEditingSingleImage ? "Start by choosing an image" : "Image not found"}</h3>
+        <StaticMessage>
+          {isEditingSingleImage ? "Start by choosing an image" : "Image not found"}
+        </StaticMessage>
       </LayoutCenter>
     );
   }
@@ -109,4 +111,10 @@ export function EditPage() {
       />
     </LayoutCenter>
   );
+}
+
+function StaticMessage({ children }: { children: string }) {
+  // The message never changes until the component is unmounted
+  const [message] = useState(children);
+  return <h3>{message}</h3>;
 }

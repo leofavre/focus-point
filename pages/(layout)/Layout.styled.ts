@@ -58,11 +58,11 @@ export const LayoutGrid = styled.main`
 
   grid-template-columns:
     minmax(var(--base-line-05x), 1fr)
-    minmax(0, 14ch)
-    minmax(0, 14ch)
+    minmax(0, 9rem)
+    minmax(0, 9rem)
     minmax(8rem, 50rem)
-    minmax(0, 14ch)
-    minmax(0, 14ch)
+    minmax(0, 9rem)
+    minmax(0, 9rem)
     minmax(var(--base-line-05x), 1fr);
 
   grid-template-rows: 8rem 1fr 6rem;
@@ -137,9 +137,10 @@ export const LayoutGrid = styled.main`
   @media (aspect-ratio: 4/5), (max-aspect-ratio: 4/5) {
     grid-template-columns:
       minmax(var(--base-line-05x), 1fr)
-      minmax(0, 16ch)
-      minmax(0, 16ch)
-      minmax(0, 16ch)
+      minmax(0, 9rem)
+      minmax(0, 9rem)
+      minmax(0, 2.5rem)
+      minmax(0, 2.5rem)
       minmax(var(--base-line-05x), 1fr);
 
     grid-template-rows: 8rem 1fr auto 4rem;
@@ -163,7 +164,6 @@ export const LayoutGrid = styled.main`
 
     [data-component="EditorControlsNav"] [data-component="ImageUploaderButton"] {
       grid-column: 5;
-      display: none;
     }
   }
 `;

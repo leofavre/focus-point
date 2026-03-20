@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useEffectEvent, useState } from "react";
+import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import { CodeSnippet } from "@/components/CodeSnippet/CodeSnippet";
 import { CodeSnippetHeader } from "@/components/CodeSnippetHeader/CodeSnippetHeader";

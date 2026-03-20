@@ -41,7 +41,7 @@ describe("copyTextToClipboardWithToast", () => {
 
     await copyTextToClipboardWithToast("text");
 
-    expect(toast.success).toHaveBeenCalledWith("Code copied to clipboard");
+    expect(toast.success).toHaveBeenCalledWith("Code copied to clipboard.");
     expect(toast.error).not.toHaveBeenCalled();
   });
 
@@ -56,7 +56,7 @@ describe("copyTextToClipboardWithToast", () => {
 
     await copyTextToClipboardWithToast("text");
 
-    expect(toast.error).toHaveBeenCalledWith("Failed to copy to clipboard");
+    expect(toast.error).toHaveBeenCalledWith("Failed to copy to clipboard.");
     expect(toast.success).not.toHaveBeenCalled();
   });
 

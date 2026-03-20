@@ -22,6 +22,7 @@ export function LandingPage() {
         label="Choose image"
         onImageUpload={handleImageUpload}
         onImageUploadError={handleImageUploadError}
+        icon="add"
       />
       <HowToUse />
     </LandingWrapper>

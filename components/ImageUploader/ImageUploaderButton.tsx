@@ -4,6 +4,7 @@ import { useHydrated } from "vike-react/useHydrated";
 import { Button } from "@/components/Button/Button";
 import { useUploadBackdrop } from "@/components/UploadBackdrop/UploadBackdropContext";
 import { IconAdd } from "@/src/icons/IconAdd";
+import { IconSwap } from "@/src/icons/IconSwap";
 import type { ImageDraftStateAndFile, ImageDraftStateAndUrl } from "@/src/types";
 import { useImageDropzone } from "./hooks/useImageDropzone";
 import { InvisibleControl, InvisibleForm, InvisibleLabel } from "./ImageUploader.styled";
@@ -19,6 +20,7 @@ export function ImageUploaderButton({
   onImagesUploadError,
   grow,
   disabled,
+  icon,
   ...rest
 }: ImageUploaderButtonProps) {
   const isHydrated = useHydrated();
@@ -98,7 +100,7 @@ export function ImageUploaderButton({
           grow={grow}
           disabled={!isHydrated || disabled}
         >
-          <IconAdd />
+          {icon === "add" ? <IconAdd /> : <IconSwap />}
           <Button.ButtonText>{label}</Button.ButtonText>
         </Button>
       </InvisibleLabel>

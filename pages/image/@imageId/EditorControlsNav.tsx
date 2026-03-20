@@ -88,6 +88,7 @@ export function EditorControlsNav() {
         onImageUploadError={handleImageUploadError}
         grow
         disabled={isUIStateButtonDisabled}
+        icon="swap"
       />
     </EditorControlsNavStyled>
   );

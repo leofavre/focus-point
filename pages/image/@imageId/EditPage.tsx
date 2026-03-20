@@ -86,17 +86,14 @@ export function EditPage() {
   if (imageNotFoundConfirmed) {
     return (
       <LayoutCenter>
-        <p>
-          {isEditingSingleImage && imageCount === 0
-            ? "Start by choosing an image"
-            : "Image not found"}
-        </p>
         <ImageUploaderButton
           size="large"
           label="Choose image"
           onImageUpload={handleImageUpload}
           onImageUploadError={handleImageUploadError}
+          icon="add"
         />
+        <h3>{isEditingSingleImage ? "Start by choosing an image" : "Image not found"}</h3>
       </LayoutCenter>
     );
   }
@@ -108,6 +105,7 @@ export function EditPage() {
         label="Choose image"
         onImageUpload={handleImageUpload}
         onImageUploadError={handleImageUploadError}
+        icon="add"
       />
     </LayoutCenter>
   );

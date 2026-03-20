@@ -13,9 +13,9 @@ export async function copyTextToClipboardWithToast(text: string): Promise<void> 
   const success = await copyToClipboard(textToCopy);
 
   if (success) {
-    toast.success("Code copied to clipboard");
+    toast.success("Code copied to clipboard.");
   } else {
-    toast.error("Failed to copy to clipboard");
+    toast.error("Failed to copy to clipboard.");
   }
 }
 

@@ -27,6 +27,7 @@ export type ImageUploaderButtonProps = ImageUploaderProps & {
   label: string;
   grow?: boolean;
   disabled?: boolean;
+  icon: "add" | "swap";
 };
 
 export type FullScreenDropZoneProps = Pick<

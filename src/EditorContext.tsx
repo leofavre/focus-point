@@ -315,6 +315,7 @@ export function EditorContextProvider({ children }: PropsWithChildren) {
         const nextImageState = result.accepted;
 
         safeSetImage(nextImageState);
+
         setAspectRatio(
           imageRecord.lastKnownAspectRatio ??
             nextImageState.naturalAspectRatio ??
@@ -332,7 +333,7 @@ export function EditorContextProvider({ children }: PropsWithChildren) {
   const isLoading = isOnImageRoute && image == null && !imageNotFoundConfirmed;
 
   const handleImageError = useCallback(() => {
-    toast.error("Failed to load image");
+    toast.error("Failed to load image.");
     safeSetImage(null);
   }, []);
 

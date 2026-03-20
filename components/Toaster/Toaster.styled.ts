@@ -16,6 +16,7 @@ export const Wrapper = styled.div`
   margin: 0;
   overflow: visible;
   box-shadow: none;
+  color: var(--color-neutral);
 
   &::backdrop {
     background: transparent;
@@ -23,12 +24,25 @@ export const Wrapper = styled.div`
 
   &[data-dismissed] {
     transform: translate(-50%, -150%);
+    color: inherit;
   }
 
   > div {
     padding: var(--base-line-025x);
     padding-inline-start: var(--base-line-05x);
     min-height: 5ch;
-    min-width: 30ch;
+    max-width: 35ch;
+    color: inherit;
+  }
+
+  [role="status"] {
+    margin: var(--base-line-025x) var(--base-line-05x);
+    color: inherit;
+  }
+
+  svg {
+    width: var(--base-line);
+    flex-shrink: 0;
+    color: inherit;
   }
 `;

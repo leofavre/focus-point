@@ -139,4 +139,8 @@ export const Shadow = styled.span`
   }
 `;
 
-export const ButtonText = styled.span``;
+export const ButtonText = styled.span`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+`;

@@ -58,7 +58,6 @@ export function Toaster() {
     error: {
       icon: <IconClose />,
     },
-    duration: 120_000,
   });
 
   const dismissedCount = toasts.filter((toast) => toast.dismissed).length;

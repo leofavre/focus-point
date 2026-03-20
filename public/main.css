@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wdth,wght@0,75..100,100..700;1,75..100,100..700&family=Sono:wght,MONO@200..800,1&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Sono:wght,MONO@200..800,1&display=swap");
 
 :root {
   --color-zero: white;
@@ -42,7 +42,6 @@
 html {
   font-family: "IBM Plex Sans", sans-serif;
   font-optical-sizing: auto;
-  font-stretch: 75%;
   height: 100%;
   margin: 0;
   padding: 0;

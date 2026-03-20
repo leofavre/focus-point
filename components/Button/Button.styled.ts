@@ -24,6 +24,7 @@ export const Wrapper = styled.button`
   margin: 0;
   border: none;
   background: none;
+  font: inherit;
 
   &:focus-visible {
     outline: none;

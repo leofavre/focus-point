@@ -33,7 +33,6 @@ export function EditPage() {
     isLoading,
     imageNotFoundConfirmed,
     isEditingSingleImage,
-    imageCount,
   } = useEditorContext();
 
   const handleImageUploadError = useCallback((error: Err<UploadErrorCode>) => {

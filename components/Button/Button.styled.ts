@@ -107,7 +107,7 @@ export const Control = styled.span`
 
     @media (hover: hover) {
       ${Wrapper}:active:not(:disabled) & {
-        transform: var(--transform-in);
+        transform: var(--transform-out);
       }
     }
   }
@@ -176,7 +176,7 @@ export const Shadow = styled.span`
 
     @media (hover: hover) {
       ${Wrapper}:active:not(:disabled) & {
-        clip-path: var(--clip-path-out);
+        clip-path: var(--clip-path-in);
       }
     }
   }

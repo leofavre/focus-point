@@ -143,19 +143,23 @@ export const Shadow = styled.span`
 
   @media (hover: hover) {
     ${Wrapper}:active:not(:disabled) & {
+      transition: transform 66ms ease-in-out;
       transform: var(--transform-out);
     }
   }
 
   ${Wrapper}:not([data-toggleable]):active & {
+    transition: transform 66ms ease-in-out;
     transform: var(--transform-out);
   }
 
   ${Wrapper}[data-toggleable][aria-pressed="true"] & {
+    transition: transform 66ms ease-in-out;
     transform: var(--transform-out);
 
     @media (hover: hover) {
       ${Wrapper}:active:not(:disabled) & {
+        transition: transform 66ms ease-in-out;
         transform: var(--transform-out);
       }
     }

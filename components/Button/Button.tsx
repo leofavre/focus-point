@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef, MouseEvent } from "react";
 import { useCallback, useEffectEvent } from "react";
 import { parseBooleanAttr } from "@/src/helpers/parseBooleanAttr";
-import { ButtonText, Container, Control, Shadow, Wrapper } from "./Button.styled";
+import { ButtonText, Container, Control, Shadow, ShadowMask, Wrapper } from "./Button.styled";
 import type { ButtonProps } from "./types";
 
 export function Button({
@@ -52,7 +52,9 @@ export function Button({
       {...rest}
     >
       <Container>
-        <Shadow />
+        <ShadowMask>
+          <Shadow />
+        </ShadowMask>
         <Control>{children}</Control>
       </Container>
     </Wrapper>

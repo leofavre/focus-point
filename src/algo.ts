@@ -1,4 +1,4 @@
-export type ObjectFit = "cover" | "contain";
+export type ObjectFit = "cover" | "contain" | "fill" | "none" | "scale-down";
 
 type Dimensions = {
   width: number;
@@ -63,15 +63,40 @@ export function calculateCSSObjectFit({
   fit = "cover",
   position = { xPercent: 0.5, yPercent: 0.5 },
 }: CalculateObjectFitParams): ObjectFitResult {
-  // Cover scales until the image fills the container (largest factor wins);
-  // contain scales until it fits entirely inside it (smallest factor wins)
   const scaleX = container.width / natural.width;
   const scaleY = container.height / natural.height;
-  const scale = fit === "cover" ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
+
+  // Every fit except fill preserves the aspect ratio (same scale on both
+  // axes); fill stretches each axis to the container independently
+  let scaleW: number;
+  let scaleH: number;
+
+  switch (fit) {
+    case "cover":
+      // Largest factor wins: the image fills the container and overflows
+      scaleW = scaleH = Math.max(scaleX, scaleY);
+      break;
+    case "contain":
+      // Smallest factor wins: the image fits entirely inside the container
+      scaleW = scaleH = Math.min(scaleX, scaleY);
+      break;
+    case "fill":
+      scaleW = scaleX;
+      scaleH = scaleY;
+      break;
+    case "none":
+      // The image keeps its natural size
+      scaleW = scaleH = 1;
+      break;
+    case "scale-down":
+      // Behaves as none or contain, whichever results in a smaller image
+      scaleW = scaleH = Math.min(1, scaleX, scaleY);
+      break;
+  }
 
   // Determine the final rendered size of the image
-  const renderedWidth = natural.width * scale;
-  const renderedHeight = natural.height * scale;
+  const renderedWidth = natural.width * scaleW;
+  const renderedHeight = natural.height * scaleH;
 
   // Calculate remaining space (negative for the overflowing axis with cover,
   // positive for the leftover axis with contain)
@@ -104,18 +129,54 @@ export function calculateCSSObjectFitPercent({
   fit = "cover",
   position = { xPercent: 0.5, yPercent: 0.5 },
 }: CalculateObjectFitParams): ObjectFitPercentResult {
-  // In relative terms, only the aspect ratios matter
+  // For cover, contain and fill only the aspect ratios matter; none and
+  // scale-down also depend on the image's absolute natural size
   const containerRatio = container.width / container.height;
   const naturalRatio = natural.width / natural.height;
-
-  // One axis always matches the container exactly (100%): with cover it is the
-  // axis where the image is proportionally smaller (the other overflows), with
-  // contain it is the axis where it is proportionally larger (the other falls
-  // short). The remaining axis differs by the ratio between the aspect ratios.
   const imageIsWider = naturalRatio > containerRatio;
-  const widthFills = fit === "cover" ? !imageIsWider : imageIsWider;
-  const renderedWidthPercent = widthFills ? 1 : naturalRatio / containerRatio;
-  const renderedHeightPercent = widthFills ? containerRatio / naturalRatio : 1;
+
+  // For cover and contain one axis always matches the container exactly
+  // (100%): with cover it is the axis where the image is proportionally
+  // smaller (the other overflows), with contain it is the axis where it is
+  // proportionally larger (the other falls short). The remaining axis
+  // differs by the ratio between the aspect ratios.
+  const containWidthPercent = imageIsWider ? 1 : naturalRatio / containerRatio;
+  const containHeightPercent = imageIsWider ? containerRatio / naturalRatio : 1;
+  const noneWidthPercent = natural.width / container.width;
+  const noneHeightPercent = natural.height / container.height;
+
+  let renderedWidthPercent: number;
+  let renderedHeightPercent: number;
+
+  switch (fit) {
+    case "cover":
+      renderedWidthPercent = imageIsWider ? naturalRatio / containerRatio : 1;
+      renderedHeightPercent = imageIsWider ? 1 : containerRatio / naturalRatio;
+      break;
+    case "contain":
+      renderedWidthPercent = containWidthPercent;
+      renderedHeightPercent = containHeightPercent;
+      break;
+    case "fill":
+      renderedWidthPercent = 1;
+      renderedHeightPercent = 1;
+      break;
+    case "none":
+      renderedWidthPercent = noneWidthPercent;
+      renderedHeightPercent = noneHeightPercent;
+      break;
+    case "scale-down":
+      // Behaves as none or contain, whichever results in a smaller image;
+      // both preserve the aspect ratio, so comparing one axis is enough
+      if (noneWidthPercent <= containWidthPercent) {
+        renderedWidthPercent = noneWidthPercent;
+        renderedHeightPercent = noneHeightPercent;
+      } else {
+        renderedWidthPercent = containWidthPercent;
+        renderedHeightPercent = containHeightPercent;
+      }
+      break;
+  }
 
   // Remaining space relative to the container, then the object-position
   // formula, same as in the pixel version

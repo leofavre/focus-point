@@ -11,10 +11,10 @@
         font-family: sans-serif;
         display: flex;
         flex-direction: column;
-        gap: 120px;
+        gap: 200px;
       }
 
-      #toggle-fit {
+      #fit-select {
         position: fixed;
         top: 16px;
         right: 16px;
@@ -29,7 +29,12 @@
       }
 
       figcaption {
-        margin-bottom: 48px;
+        margin-bottom: 64px;
+        position: relative;
+        z-index: 1;
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 4px 8px;
       }
 
       .container {
@@ -58,7 +63,13 @@
     </style>
   </head>
   <body>
-    <button id="toggle-fit" type="button">object-fit: cover</button>
+    <select id="fit-select">
+      <option value="cover">object-fit: cover</option>
+      <option value="contain">object-fit: contain</option>
+      <option value="fill">object-fit: fill</option>
+      <option value="none">object-fit: none</option>
+      <option value="scale-down">object-fit: scale-down</option>
+    </select>
 
     <figure>
       <figcaption>4:3 — CSS: <code>object-fit; object-position: 25% 25%</code></figcaption>

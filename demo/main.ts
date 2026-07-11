@@ -50,7 +50,7 @@ async function applyFitPixels(image: HTMLImageElement, fit: ObjectFit): Promise<
 async function applyFitPercent(image: HTMLImageElement, fit: ObjectFit): Promise<void> {
   const { container, natural } = await measure(image);
 
-  const { renderedWidthPercent, translateXPercent, translateYPercent } =
+  const { renderedWidthPercent, renderedHeightPercent, translateXPercent, translateYPercent } =
     calculateCSSObjectFitPercent({
       container,
       natural,
@@ -58,16 +58,20 @@ async function applyFitPercent(image: HTMLImageElement, fit: ObjectFit): Promise
       position: POSITION,
     });
 
-  // Only the axis that matches the container (100%) needs to be set; the
-  // other axis follows from the image's intrinsic aspect ratio. Clear both
-  // first because the filling axis changes when the fit changes.
+  // When the fit preserves the aspect ratio, setting one axis is enough:
+  // the other follows from the image's intrinsic proportions. Only fill
+  // distorts the image, so it is the only fit that needs both axes set.
+  // Clear both first because the set axis changes when the fit changes.
   image.style.width = "";
   image.style.height = "";
 
-  if (renderedWidthPercent === 1) {
+  if (fit === "fill") {
     image.style.width = "100%";
-  } else {
     image.style.height = "100%";
+  } else if (renderedHeightPercent === 1) {
+    image.style.height = "100%";
+  } else {
+    image.style.width = `${renderedWidthPercent * 100}%`;
   }
 
   image.style.transform = `translate(${translateXPercent * 100}%, ${translateYPercent * 100}%)`;
@@ -87,28 +91,32 @@ function applyFitEverywhere(fit: ObjectFit): void {
   }
 }
 
-function requireToggleButton(): HTMLButtonElement {
-  const button = document.querySelector<HTMLButtonElement>("#toggle-fit");
+const FIT_VALUES: readonly ObjectFit[] = ["cover", "contain", "fill", "none", "scale-down"];
 
-  if (!button) {
-    throw new Error("#toggle-fit not found");
+function parseFit(value: string): ObjectFit {
+  const fit = FIT_VALUES.find((candidate) => candidate === value);
+
+  if (!fit) {
+    throw new Error(`Unknown object-fit value: ${value}`);
   }
 
-  return button;
+  return fit;
 }
 
-const toggleButton = requireToggleButton();
+function requireFitSelect(): HTMLSelectElement {
+  const select = document.querySelector<HTMLSelectElement>("#fit-select");
 
-let currentFit: ObjectFit = "cover";
+  if (!select) {
+    throw new Error("#fit-select not found");
+  }
 
-function render(): void {
-  toggleButton.textContent = `object-fit: ${currentFit}`;
-  applyFitEverywhere(currentFit);
+  return select;
 }
 
-toggleButton.addEventListener("click", () => {
-  currentFit = currentFit === "cover" ? "contain" : "cover";
-  render();
+const fitSelect = requireFitSelect();
+
+fitSelect.addEventListener("change", () => {
+  applyFitEverywhere(parseFit(fitSelect.value));
 });
 
-render();
+applyFitEverywhere(parseFit(fitSelect.value));

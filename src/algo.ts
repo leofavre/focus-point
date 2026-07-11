@@ -1,3 +1,5 @@
+export type ObjectFit = "cover" | "contain";
+
 type Dimensions = {
   width: number;
   height: number;
@@ -10,16 +12,18 @@ type ObjectPosition = {
   yPercent: number;
 };
 
-type CalculateCoverParams = {
+type CalculateObjectFitParams = {
   /** Dimensions of the container */
   container: Dimensions;
   /** Dimensions of the image */
   natural: Dimensions;
+  /** Fit strategy (defaults to "cover") */
+  fit?: ObjectFit;
   /** Desired alignment (defaults to 0.5, 0.5) */
   position?: ObjectPosition;
 };
 
-type CoverResult = {
+type ObjectFitResult = {
   /** Final width of the resized image */
   renderedWidth: number;
   /** Final height of the resized image */
@@ -34,7 +38,7 @@ type CoverResult = {
   translateY: number;
 };
 
-type CoverPercentResult = {
+type ObjectFitPercentResult = {
   /** Final width of the resized image, as a fraction of the container width (1 = 100%) */
   renderedWidthPercent: number;
   /** Final height of the resized image, as a fraction of the container height (1 = 100%) */
@@ -50,23 +54,27 @@ type CoverPercentResult = {
 };
 
 /**
- * Calculates the positioning and dimensions of an image using object-fit: cover and object-position.
+ * Calculates the positioning and dimensions of an image using object-fit (cover or contain)
+ * and object-position.
  */
-export function calculateCSSCover({
+export function calculateCSSObjectFit({
   container,
   natural,
+  fit = "cover",
   position = { xPercent: 0.5, yPercent: 0.5 },
-}: CalculateCoverParams): CoverResult {
-  // Calculate the scale factor required to cover the entire container
+}: CalculateObjectFitParams): ObjectFitResult {
+  // Cover scales until the image fills the container (largest factor wins);
+  // contain scales until it fits entirely inside it (smallest factor wins)
   const scaleX = container.width / natural.width;
   const scaleY = container.height / natural.height;
-  const scale = Math.max(scaleX, scaleY);
+  const scale = fit === "cover" ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
 
   // Determine the final rendered size of the image
   const renderedWidth = natural.width * scale;
   const renderedHeight = natural.height * scale;
 
-  // Calculate excess (values will be negative or zero)
+  // Calculate remaining space (negative for the overflowing axis with cover,
+  // positive for the leftover axis with contain)
   const remainingSpaceX = container.width - renderedWidth;
   const remainingSpaceY = container.height - renderedHeight;
 
@@ -85,28 +93,32 @@ export function calculateCSSCover({
 }
 
 /**
- * Same calculation as calculateCSSCover, but every result is expressed as a
+ * Same calculation as calculateCSSObjectFit, but every result is expressed as a
  * fraction of the container's dimensions (1 = 100%) instead of pixels.
  * Widths and X offsets are relative to the container width; heights and
  * Y offsets are relative to the container height.
  */
-export function calculateCSSCoverPercent({
+export function calculateCSSObjectFitPercent({
   container,
   natural,
+  fit = "cover",
   position = { xPercent: 0.5, yPercent: 0.5 },
-}: CalculateCoverParams): CoverPercentResult {
+}: CalculateObjectFitParams): ObjectFitPercentResult {
   // In relative terms, only the aspect ratios matter
   const containerRatio = container.width / container.height;
   const naturalRatio = natural.width / natural.height;
 
-  // With cover, one axis always fills the container exactly (100%) while the
-  // other overflows by the ratio between the two aspect ratios
+  // One axis always matches the container exactly (100%): with cover it is the
+  // axis where the image is proportionally smaller (the other overflows), with
+  // contain it is the axis where it is proportionally larger (the other falls
+  // short). The remaining axis differs by the ratio between the aspect ratios.
   const imageIsWider = naturalRatio > containerRatio;
-  const renderedWidthPercent = imageIsWider ? naturalRatio / containerRatio : 1;
-  const renderedHeightPercent = imageIsWider ? 1 : containerRatio / naturalRatio;
+  const widthFills = fit === "cover" ? !imageIsWider : imageIsWider;
+  const renderedWidthPercent = widthFills ? 1 : naturalRatio / containerRatio;
+  const renderedHeightPercent = widthFills ? containerRatio / naturalRatio : 1;
 
-  // Excess relative to the container (negative or zero), then the
-  // object-position formula, same as in the pixel version
+  // Remaining space relative to the container, then the object-position
+  // formula, same as in the pixel version
   const offsetXPercent = (1 - renderedWidthPercent) * position.xPercent;
   const offsetYPercent = (1 - renderedHeightPercent) * position.yPercent;
 

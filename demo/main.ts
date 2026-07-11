@@ -1,4 +1,8 @@
-import { calculateCSSCover, calculateCSSCoverPercent } from "../src/algo.ts";
+import {
+  calculateCSSObjectFit,
+  calculateCSSObjectFitPercent,
+  type ObjectFit,
+} from "../src/algo.ts";
 
 const POSITION = { xPercent: 0.25, yPercent: 0.25 };
 
@@ -28,12 +32,13 @@ async function measure(image: HTMLImageElement): Promise<Measurements> {
   };
 }
 
-async function applyCoverPixels(image: HTMLImageElement): Promise<void> {
+async function applyFitPixels(image: HTMLImageElement, fit: ObjectFit): Promise<void> {
   const { container, natural } = await measure(image);
 
-  const { renderedWidth, renderedHeight, translateX, translateY } = calculateCSSCover({
+  const { renderedWidth, renderedHeight, translateX, translateY } = calculateCSSObjectFit({
     container,
     natural,
+    fit,
     position: POSITION,
   });
 
@@ -42,17 +47,23 @@ async function applyCoverPixels(image: HTMLImageElement): Promise<void> {
   image.style.transform = `translate(${translateX}px, ${translateY}px)`;
 }
 
-async function applyCoverPercent(image: HTMLImageElement): Promise<void> {
+async function applyFitPercent(image: HTMLImageElement, fit: ObjectFit): Promise<void> {
   const { container, natural } = await measure(image);
 
-  const { renderedWidthPercent, translateXPercent, translateYPercent } = calculateCSSCoverPercent({
-    container,
-    natural,
-    position: POSITION,
-  });
+  const { renderedWidthPercent, translateXPercent, translateYPercent } =
+    calculateCSSObjectFitPercent({
+      container,
+      natural,
+      fit,
+      position: POSITION,
+    });
 
-  // Only the axis that fills the container (100%) needs to be set; the
-  // overflowing axis follows from the image's intrinsic aspect ratio
+  // Only the axis that matches the container (100%) needs to be set; the
+  // other axis follows from the image's intrinsic aspect ratio. Clear both
+  // first because the filling axis changes when the fit changes.
+  image.style.width = "";
+  image.style.height = "";
+
   if (renderedWidthPercent === 1) {
     image.style.width = "100%";
   } else {
@@ -62,10 +73,42 @@ async function applyCoverPercent(image: HTMLImageElement): Promise<void> {
   image.style.transform = `translate(${translateXPercent * 100}%, ${translateYPercent * 100}%)`;
 }
 
-for (const image of document.querySelectorAll<HTMLImageElement>("img.js-px")) {
-  applyCoverPixels(image);
+function applyFitEverywhere(fit: ObjectFit): void {
+  for (const image of document.querySelectorAll<HTMLImageElement>(".css-fit img")) {
+    image.style.objectFit = fit;
+  }
+
+  for (const image of document.querySelectorAll<HTMLImageElement>("img.js-px")) {
+    applyFitPixels(image, fit);
+  }
+
+  for (const image of document.querySelectorAll<HTMLImageElement>("img.js-percent")) {
+    applyFitPercent(image, fit);
+  }
 }
 
-for (const image of document.querySelectorAll<HTMLImageElement>("img.js-percent")) {
-  applyCoverPercent(image);
+function requireToggleButton(): HTMLButtonElement {
+  const button = document.querySelector<HTMLButtonElement>("#toggle-fit");
+
+  if (!button) {
+    throw new Error("#toggle-fit not found");
+  }
+
+  return button;
 }
+
+const toggleButton = requireToggleButton();
+
+let currentFit: ObjectFit = "cover";
+
+function render(): void {
+  toggleButton.textContent = `object-fit: ${currentFit}`;
+  applyFitEverywhere(currentFit);
+}
+
+toggleButton.addEventListener("click", () => {
+  currentFit = currentFit === "cover" ? "contain" : "cover";
+  render();
+});
+
+render();

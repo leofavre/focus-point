@@ -9,6 +9,7 @@
     "lint": "biome check",
     "lint:fix": "biome check --write",
     "dev": "vike dev",
+    "demo": "vite demo",
     "build": "tsc && vike build",
     "preview": "vike preview",
     "typecheck": "tsc --noEmit",

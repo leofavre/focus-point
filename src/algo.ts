@@ -28,6 +28,25 @@ type CoverResult = {
   offsetX: number;
   /** Y position of the image's top edge relative to the container */
   offsetY: number;
+  /** X offset ready for CSS translate(), in pixels (same as offsetX, since pixel translations are absolute) */
+  translateX: number;
+  /** Y offset ready for CSS translate(), in pixels (same as offsetY, since pixel translations are absolute) */
+  translateY: number;
+};
+
+type CoverPercentResult = {
+  /** Final width of the resized image, as a fraction of the container width (1 = 100%) */
+  renderedWidthPercent: number;
+  /** Final height of the resized image, as a fraction of the container height (1 = 100%) */
+  renderedHeightPercent: number;
+  /** X position of the image's left edge, as a fraction of the container width */
+  offsetXPercent: number;
+  /** Y position of the image's top edge, as a fraction of the container height */
+  offsetYPercent: number;
+  /** X offset ready for CSS translate(), as a fraction of the image's own rendered width */
+  translateXPercent: number;
+  /** Y offset ready for CSS translate(), as a fraction of the image's own rendered height */
+  translateYPercent: number;
 };
 
 /**
@@ -60,5 +79,49 @@ export function calculateCSSCover({
     renderedHeight,
     offsetX,
     offsetY,
+    translateX: offsetX,
+    translateY: offsetY,
+  };
+}
+
+/**
+ * Same calculation as calculateCSSCover, but every result is expressed as a
+ * fraction of the container's dimensions (1 = 100%) instead of pixels.
+ * Widths and X offsets are relative to the container width; heights and
+ * Y offsets are relative to the container height.
+ */
+export function calculateCSSCoverPercent({
+  container,
+  natural,
+  position = { xPercent: 0.5, yPercent: 0.5 },
+}: CalculateCoverParams): CoverPercentResult {
+  // In relative terms, only the aspect ratios matter
+  const containerRatio = container.width / container.height;
+  const naturalRatio = natural.width / natural.height;
+
+  // With cover, one axis always fills the container exactly (100%) while the
+  // other overflows by the ratio between the two aspect ratios
+  const imageIsWider = naturalRatio > containerRatio;
+  const renderedWidthPercent = imageIsWider ? naturalRatio / containerRatio : 1;
+  const renderedHeightPercent = imageIsWider ? 1 : containerRatio / naturalRatio;
+
+  // Excess relative to the container (negative or zero), then the
+  // object-position formula, same as in the pixel version
+  const offsetXPercent = (1 - renderedWidthPercent) * position.xPercent;
+  const offsetYPercent = (1 - renderedHeightPercent) * position.yPercent;
+
+  // translate() percentages are relative to the image itself, not the
+  // container, so convert the container-relative offsets by dividing them
+  // by the container-relative rendered size
+  const translateXPercent = offsetXPercent / renderedWidthPercent;
+  const translateYPercent = offsetYPercent / renderedHeightPercent;
+
+  return {
+    renderedWidthPercent,
+    renderedHeightPercent,
+    offsetXPercent,
+    offsetYPercent,
+    translateXPercent,
+    translateYPercent,
   };
 }

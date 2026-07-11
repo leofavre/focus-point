@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS cover vs. calculateCSSCoverPercent</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 40px;
+        font-family: sans-serif;
+        display: flex;
+        flex-direction: column;
+        gap: 120px;
+      }
+
+      figure {
+        margin: 0;
+      }
+
+      figcaption {
+        margin-bottom: 48px;
+      }
+
+      .container {
+        width: 400px;
+        height: 400px;
+        outline: 3px solid crimson;
+      }
+
+      .css-cover img {
+        display: block;
+        width: 400px;
+        height: 400px;
+        object-fit: cover;
+        object-position: 25% 25%;
+      }
+
+      .js-cover {
+        position: relative;
+        overflow: visible;
+      }
+
+      .js-cover img {
+        display: block;
+        position: absolute;
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <figure>
+      <figcaption>4:3 — CSS: <code>object-fit: cover; object-position: 25% 25%</code></figcaption>
+      <div class="container css-cover">
+        <img src="https://picsum.photos/id/1015/800/600" alt="CSS cover, 4:3" />
+      </div>
+    </figure>
+
+    <figure>
+      <figcaption>4:3 — JS: <code>calculateCSSCover</code> (pixels, overflow visible)</figcaption>
+      <div class="container js-cover">
+        <img class="js-px" src="https://picsum.photos/id/1015/800/600" alt="JS cover simulation in pixels, 4:3" />
+      </div>
+    </figure>
+
+    <figure>
+      <figcaption>4:3 — JS: <code>calculateCSSCoverPercent</code> (percent, overflow visible)</figcaption>
+      <div class="container js-cover">
+        <img class="js-percent" src="https://picsum.photos/id/1015/800/600" alt="JS cover simulation in percent, 4:3" />
+      </div>
+    </figure>
+
+    <figure>
+      <figcaption>3:4 — CSS: <code>object-fit: cover; object-position: 25% 25%</code></figcaption>
+      <div class="container css-cover">
+        <img src="https://picsum.photos/id/1011/600/800" alt="CSS cover, 3:4" />
+      </div>
+    </figure>
+
+    <figure>
+      <figcaption>3:4 — JS: <code>calculateCSSCover</code> (pixels, overflow visible)</figcaption>
+      <div class="container js-cover">
+        <img class="js-px" src="https://picsum.photos/id/1011/600/800" alt="JS cover simulation in pixels, 3:4" />
+      </div>
+    </figure>
+
+    <figure>
+      <figcaption>3:4 — JS: <code>calculateCSSCoverPercent</code> (percent, overflow visible)</figcaption>
+      <div class="container js-cover">
+        <img class="js-percent" src="https://picsum.photos/id/1011/600/800" alt="JS cover simulation in percent, 3:4" />
+      </div>
+    </figure>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

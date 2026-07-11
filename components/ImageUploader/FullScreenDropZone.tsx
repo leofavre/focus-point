@@ -1,27 +1,30 @@
-import type { Ref } from "react";
-import { useEffect, useEffectEvent, useRef } from "react";
-import { mergeRefs } from "react-merge-refs";
+import { useEffect, useEffectEvent } from "react";
 import { useHydrated } from "vike-react/useHydrated";
-import { parseBooleanAttr } from "@/src/helpers/parseBooleanAttr";
-import { useClosingTransition, useDelayedClose } from "@/src/hooks/useClosingTransition";
-import { BackdropOverlay } from "../BackdropOverlay/BackdropOverlay.styled";
+import { useUploadBackdrop } from "@/components/UploadBackdrop/UploadBackdropContext";
 import { useImageDropzone } from "./hooks/useImageDropzone";
 import type { FullScreenDropZoneProps } from "./types";
 
 export function FullScreenDropZone({
-  onImageUpload,
+  onImageUpload: _onImageUpload,
   onImagesUpload,
   onImageUploadError,
   onImagesUploadError,
   onDragStart,
-  ...rest
 }: FullScreenDropZoneProps) {
-  const popoverRef = useRef<HTMLDivElement>(null);
   const isHydrated = useHydrated();
+  const { showDropZone, scheduleHide, cancelScheduledHide, getUploadHandler } = useUploadBackdrop();
+
+  const uploadHandler = getUploadHandler();
 
   const { getRootProps, getInputProps, isDragGlobal } = useImageDropzone({
-    onImageUpload,
-    onImagesUpload,
+    onImageUpload: (draft) => {
+      uploadHandler?.(draft);
+    },
+    onImagesUpload: (drafts) => {
+      if (uploadHandler) {
+        drafts.forEach(uploadHandler);
+      }
+    },
     onImageUploadError,
     onImagesUploadError,
     noClick: true,
@@ -29,46 +32,26 @@ export function FullScreenDropZone({
     multiple: onImagesUpload != null,
   });
 
-  const stableHidePopover = useEffectEvent(() => {
-    popoverRef.current?.hidePopover();
+  const stableShowDropZoneWithContent = useEffectEvent(() => {
+    const { ref, ...rootProps } = getRootProps();
+    showDropZone(
+      { ...rootProps, ref },
+      <>
+        <input {...getInputProps()} aria-hidden disabled={!isHydrated} />
+        <p>Drop an image here</p>
+      </>,
+    );
   });
-
-  const { isClosing, requestClose, cancelClose } = useClosingTransition({
-    onClose: stableHidePopover,
-  });
-
-  const { scheduleClose, cancelScheduledClose } = useDelayedClose({
-    onSchedule: requestClose,
-  });
-
-  const { ref: rootRef, ...rootProps } = getRootProps();
-  const mergedRefs = mergeRefs([popoverRef, rootRef as Ref<HTMLDivElement | null>]);
 
   useEffect(() => {
-    if (popoverRef.current == null) return;
-
     if (isDragGlobal) {
-      cancelScheduledClose();
-      cancelClose();
+      cancelScheduledHide();
       onDragStart?.();
-      popoverRef.current.showPopover();
+      stableShowDropZoneWithContent();
     } else {
-      scheduleClose();
+      scheduleHide();
     }
-  }, [isDragGlobal, onDragStart, scheduleClose, cancelScheduledClose, cancelClose]);
+  }, [isDragGlobal, onDragStart, scheduleHide, cancelScheduledHide]);
 
-  return (
-    <BackdropOverlay
-      ref={mergedRefs}
-      popover="manual"
-      data-closing={parseBooleanAttr(isClosing)}
-      {...rootProps}
-      data-component="FullScreenDropZone"
-      aria-hidden={!isDragGlobal}
-      {...rest}
-    >
-      <input {...getInputProps()} aria-hidden disabled={!isHydrated} />
-      <p>Drop an image here</p>
-    </BackdropOverlay>
-  );
+  return null;
 }

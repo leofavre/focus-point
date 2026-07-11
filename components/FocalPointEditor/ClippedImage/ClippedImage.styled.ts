@@ -25,7 +25,13 @@ export const FocusableImage = styled.div`
   pointer-events: auto;
 
   &:focus-visible {
-    outline: 0.25rem solid var(--color-glow);
-    outline-offset: 0;
+    outline: none;
+  }
+
+  @media (pointer: fine) {
+    &:focus-visible {
+      outline: 0.25rem solid var(--color-glow);
+      outline-offset: 0;
+    }
   }
 `;

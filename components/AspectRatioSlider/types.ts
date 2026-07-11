@@ -1,7 +1,8 @@
 import type { Ref } from "react";
 
 export type AspectRatio = {
-  name: string;
+  key: string;
+  displayName: string;
   value: number;
   position: number;
 };

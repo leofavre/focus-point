@@ -9,6 +9,7 @@ export function AspectRatioSlider({
   aspectRatio,
   defaultAspectRatio,
   onAspectRatioChange,
+  disabled,
   ...rest
 }: AspectRatioSliderProps) {
   const aspectRatioList = useAspectRatioList(defaultAspectRatio);
@@ -21,6 +22,7 @@ export function AspectRatioSlider({
           aspectRatio={aspectRatio}
           aspectRatioList={aspectRatioList}
           onAspectRatioChange={onAspectRatioChange}
+          disabled={disabled}
         />
         <AspectRatioRuler aspectRatioList={aspectRatioList} />
       </Wrapper>

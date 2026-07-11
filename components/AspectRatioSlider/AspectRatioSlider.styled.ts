@@ -9,11 +9,7 @@ export const Container = styled.div`
 export const Wrapper = styled.div`
   width: 100%;
   box-sizing: border-box;
-  height: 6.5rem;
-
-  @container aspect-ratio-slider (width < 37.5rem) {
-    height: 4.5rem;
-  }
+  height: 4rem;
 
   [data-component="AspectRatioControl"] {
     position: relative;
@@ -25,17 +21,5 @@ export const Wrapper = styled.div`
     margin-right: calc(var(--thumb-radius) + 1px);
     margin-top: calc((var(--thumb-diameter) / -2) + (var(--runner-thickness) / 2));
     pointer-events: none;
-
-    @container aspect-ratio-slider (width < 37.5rem) {
-      [data-name="original"],
-      [data-name="3:4"],
-      [data-name="3:5"],
-      [data-name="4:3"],
-      [data-name="5:3"],
-      [data-name="5:7"],
-      [data-name="7:5"] {
-        display: none;
-      }
-    }
   }
 `;

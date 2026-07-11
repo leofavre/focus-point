@@ -10,7 +10,6 @@ export const Wrapper = styled.button`
   --shadow-offset: calc(0.25rem * var(--scale));
   --transform-in: translate(0, 0);
   --transform-out: translate(var(--shadow-offset), var(--shadow-offset));
-
   --button-color-solid: var(--color-neutral);
   --button-color-background: var(--color-zero);
   --button-color-hover: var(--color-neutral-tint-10);
@@ -24,6 +23,7 @@ export const Wrapper = styled.button`
   margin: 0;
   border: none;
   background: none;
+  font: inherit;
 
   &:focus-visible {
     outline: none;
@@ -86,7 +86,7 @@ export const Control = styled.span`
 
     @media (hover: hover) {
       ${Wrapper}:active:not(:disabled) & {
-        transform: var(--transform-in);
+        transform: var(--transform-out);
       }
     }
   }
@@ -127,11 +127,58 @@ export const Control = styled.span`
   }
 `;
 
-export const Shadow = styled.span`
+export const ShadowMask = styled.span`
   display: block;
   position: absolute;
-  inset: 0;
   transform: var(--transform-out);
+  inset: calc(var(--shadow-offset) * -1) 0 0 calc(var(--shadow-offset) * -1);
+  overflow: hidden;
+`;
+
+export const Shadow = styled.span`
+  position: absolute;
+  inset: 0;
+  transition: transform 66ms ease-in-out;
+  transform: var(--transform-in);
+
+  @media (hover: hover) {
+    ${Wrapper}:active:not(:disabled) & {
+      transition: transform 66ms ease-in-out;
+      transform: var(--transform-out);
+    }
+  }
+
+  ${Wrapper}:not([data-toggleable]):active & {
+    transition: transform 66ms ease-in-out;
+    transform: var(--transform-out);
+  }
+
+  ${Wrapper}[data-toggleable][aria-pressed="true"] & {
+    transition: transform 66ms ease-in-out;
+    transform: var(--transform-out);
+
+    @media (hover: hover) {
+      ${Wrapper}:active:not(:disabled) & {
+        transition: transform 66ms ease-in-out;
+        transform: var(--transform-out);
+      }
+    }
+  }
+
+  ${Wrapper}:disabled & {
+    transition: none;
+  }
+
+  clip-path: polygon(
+    0% 0%,
+    calc(100% - var(--shadow-offset)) 0%,
+    100% var(--shadow-offset),
+    100% 100%,
+    var(--shadow-offset) 100%,
+    0% calc(100% - var(--shadow-offset)),
+    0% 0%
+  );
+  
   background-color: var(--button-color-solid);
 
   ${Wrapper}:disabled & {
@@ -139,4 +186,8 @@ export const Shadow = styled.span`
   }
 `;
 
-export const ButtonText = styled.span``;
+export const ButtonText = styled.span`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+`;

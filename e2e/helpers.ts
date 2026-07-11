@@ -86,12 +86,13 @@ export async function expectEditorWithControlsVisible(page: Page) {
 }
 
 /**
- * Asserts that the Landing page is visible and the Image button is visible.
+ * Asserts that the home page is visible: the big "Choose image" button is shown
+ * and no image editor is rendered.
  */
-export async function expectLandingVisible(page: Page) {
-  const landing = page.locator('[data-component="Landing"]');
-  await expect(landing).toBeVisible();
-  await expect(landing.getByRole("button", { name: "Choose image", exact: true })).toBeVisible();
+export async function expectHomeVisible(page: Page) {
+  const chooseImageButton = page.getByRole("button", { name: "Choose image", exact: true });
+  await expect(chooseImageButton).toBeVisible();
+  await expect(page.locator('[data-component="FocalPointEditor"]')).not.toBeVisible();
 }
 
 /**
@@ -178,12 +179,11 @@ export async function dragFocalPointInEditor(
  */
 export async function seedEditorWithImage(page: Page): Promise<void> {
   await page.goto("/");
-  await expectLandingVisible(page);
-  const landing = page.locator('[data-component="Landing"]');
+  await expectHomeVisible(page);
 
   const [fileChooser] = await Promise.all([
     page.waitForEvent("filechooser"),
-    landing.getByRole("button", { name: "Choose image", exact: true }).click(),
+    page.getByRole("button", { name: "Choose image", exact: true }).click(),
   ]);
 
   await fileChooser.setFiles(SAMPLE_IMAGE_PATH);

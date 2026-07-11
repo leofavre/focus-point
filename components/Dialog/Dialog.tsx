@@ -6,6 +6,8 @@ import { IconClose } from "@/src/icons/IconClose";
 import { DialogButton, DialogContent, DialogHeader, DialogWrapper } from "./Dialog.styled";
 import type { DialogProps } from "./types";
 
+export { useDialogUrlSync } from "./useDialogUrlSync";
+
 export function Dialog({ ref, open, defaultOpen, onOpenChange, children, ...rest }: DialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const mergedRefs = mergeRefs([dialogRef, ref]);

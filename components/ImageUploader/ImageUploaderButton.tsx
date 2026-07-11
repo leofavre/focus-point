@@ -1,13 +1,11 @@
-import type { Ref } from "react";
 import { useEffectEvent, useRef, useState } from "react";
-import { mergeRefs, useMergeRefs } from "react-merge-refs";
+import { useMergeRefs } from "react-merge-refs";
 import { useHydrated } from "vike-react/useHydrated";
-import { parseBooleanAttr } from "@/src/helpers/parseBooleanAttr";
-import { useClosingTransition, useDelayedClose } from "@/src/hooks/useClosingTransition";
+import { Button } from "@/components/Button/Button";
+import { useUploadBackdrop } from "@/components/UploadBackdrop/UploadBackdropContext";
 import { IconAdd } from "@/src/icons/IconAdd";
+import { IconSwap } from "@/src/icons/IconSwap";
 import type { ImageDraftStateAndFile, ImageDraftStateAndUrl } from "@/src/types";
-import { BackdropOverlay } from "../BackdropOverlay/BackdropOverlay.styled";
-import { Button } from "../Button/Button";
 import { useImageDropzone } from "./hooks/useImageDropzone";
 import { InvisibleControl, InvisibleForm, InvisibleLabel } from "./ImageUploader.styled";
 import type { ImageUploaderButtonProps } from "./types";
@@ -21,41 +19,39 @@ export function ImageUploaderButton({
   onImageUploadError,
   onImagesUploadError,
   grow,
+  disabled,
+  icon,
   ...rest
 }: ImageUploaderButtonProps) {
   const isHydrated = useHydrated();
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const popoverRef = useRef<HTMLDivElement>(null);
   const mergedRefs = useMergeRefs([ref, buttonRef]);
+  const { showFilePicker, scheduleHide, getUploadHandler } = useUploadBackdrop();
+
+  const uploadHandler = getUploadHandler();
 
   const [isOpened, setIsOpened] = useState(false);
 
-  const stableHidePopover = useEffectEvent(() => {
-    popoverRef.current?.hidePopover();
-  });
-
-  const { isClosing, requestClose } = useClosingTransition({
-    onClose: stableHidePopover,
-  });
-
-  const { scheduleClose } = useDelayedClose({
-    onSchedule: requestClose,
-  });
-
   const scheduleBackdropHide = useEffectEvent(() => {
     setIsOpened(false);
-    scheduleClose();
+    scheduleHide();
   });
 
   const wrappedOnImageUpload = useEffectEvent(
     (draftAndFileOrUrl: ImageDraftStateAndFile | ImageDraftStateAndUrl) => {
-      void Promise.resolve(onImageUpload?.(draftAndFileOrUrl)).finally(scheduleBackdropHide);
+      void Promise.resolve(uploadHandler?.(draftAndFileOrUrl)).finally(scheduleBackdropHide);
     },
   );
 
   const wrappedOnImagesUpload = useEffectEvent(
     (draftsAndFilesOrUrls: (ImageDraftStateAndFile | ImageDraftStateAndUrl)[]) => {
-      void Promise.resolve(onImagesUpload?.(draftsAndFilesOrUrls)).finally(scheduleBackdropHide);
+      if (uploadHandler) {
+        void Promise.all(
+          draftsAndFilesOrUrls.map((d) => Promise.resolve(uploadHandler(d))),
+        ).finally(scheduleBackdropHide);
+      } else {
+        scheduleBackdropHide();
+      }
     },
   );
 
@@ -73,7 +69,7 @@ export function ImageUploaderButton({
     },
   );
 
-  const { getRootProps, getInputProps, open } = useImageDropzone({
+  const { getInputProps, open } = useImageDropzone({
     onImageUpload: onImageUpload != null ? wrappedOnImageUpload : undefined,
     onImagesUpload: onImagesUpload != null ? wrappedOnImagesUpload : undefined,
     onImageUploadError: onImageUploadError != null ? wrappedOnImageUploadError : undefined,
@@ -86,44 +82,28 @@ export function ImageUploaderButton({
   });
 
   const handleButtonClick = () => {
-    popoverRef.current?.showPopover();
     setIsOpened(true);
-    open();
+    showFilePicker(<InvisibleControl {...getInputProps()} tabIndex={-1} aria-hidden />, open);
   };
 
-  const { ref: dropzoneRef, ...dropzoneRootProps } = getRootProps();
-  const overlayMergedRefs = mergeRefs([popoverRef, dropzoneRef as Ref<HTMLDivElement | null>]);
-
   return (
-    <>
-      <BackdropOverlay
-        ref={overlayMergedRefs}
-        popover="manual"
-        data-closing={parseBooleanAttr(isClosing)}
-        {...dropzoneRootProps}
-        data-component="ImageUploaderButtonOverlay"
-        aria-hidden
-      >
-        <InvisibleControl {...getInputProps()} tabIndex={-1} aria-hidden />
-      </BackdropOverlay>
-      <InvisibleForm data-component="ImageUploaderButton" {...rest}>
-        <InvisibleLabel>
-          <Button
-            ref={mergedRefs}
-            type="button"
-            aria-label={label}
-            toggleable
-            toggled={isOpened}
-            onClick={handleButtonClick}
-            scale={size === "medium" ? 2 : size === "large" ? 4 : 1}
-            grow={grow}
-            disabled={!isHydrated}
-          >
-            <IconAdd />
-            <Button.ButtonText>{label}</Button.ButtonText>
-          </Button>
-        </InvisibleLabel>
-      </InvisibleForm>
-    </>
+    <InvisibleForm data-component="ImageUploaderButton" {...rest}>
+      <InvisibleLabel>
+        <Button
+          ref={mergedRefs}
+          type="button"
+          aria-label={label}
+          toggleable
+          toggled={isOpened}
+          onClick={handleButtonClick}
+          scale={size === "large" ? 2 : 1}
+          grow={grow}
+          disabled={!isHydrated || disabled}
+        >
+          {icon === "add" ? <IconAdd /> : <IconSwap />}
+          <Button.ButtonText>{label}</Button.ButtonText>
+        </Button>
+      </InvisibleLabel>
+    </InvisibleForm>
   );
 }

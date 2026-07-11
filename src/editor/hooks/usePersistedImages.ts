@@ -112,11 +112,13 @@ export function usePersistedImages(options?: UsePersistedImagesOptions): UsePers
   );
 
   useEffect(() => {
+    void indexedDBServiceFromContext;
+
     stableRefreshImages().then((res) => {
       if (res.rejected == null) return;
       stableOnRefreshImagesError(res.rejected);
     });
-  }, []);
+  }, [indexedDBServiceFromContext]);
 
   const addImages: UsePersistedImagesReturn["addImages"] = useCallback(
     async (draftsAndFilesOrUrls, options) => {

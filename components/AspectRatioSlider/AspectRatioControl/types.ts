@@ -6,4 +6,5 @@ export type AspectRatioControlProps = {
   aspectRatio?: number;
   aspectRatioList: AspectRatio[];
   onAspectRatioChange?: (aspectRatio: number) => void;
+  disabled?: boolean;
 };

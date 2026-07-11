@@ -21,12 +21,16 @@ export function FocalPoint({
   ...rest
 }: FocalPointProps) {
   const isDraggingRef = useRef(false);
+  const activePointerIdRef = useRef<number | null>(null);
   const crossRef = useRef<HTMLDivElement>(null);
 
   const handlePointerDown = useCallback((event: PointerEvent<HTMLDivElement>) => {
+    if (isDraggingRef.current) return;
+
     event.preventDefault();
     event.stopPropagation();
     isDraggingRef.current = true;
+    activePointerIdRef.current = event.pointerId;
 
     event.currentTarget.setPointerCapture(event.pointerId);
   }, []);
@@ -35,6 +39,7 @@ export function FocalPoint({
 
   const handlePointerMove = useCallback((event: PointerEvent<HTMLDivElement>) => {
     if (!isDraggingRef.current || crossRef.current == null) return;
+    if (event.pointerId !== activePointerIdRef.current) return;
 
     event.preventDefault();
     event.stopPropagation();
@@ -58,12 +63,16 @@ export function FocalPoint({
   }, []);
 
   const handlePointerUp = useCallback((event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerId !== activePointerIdRef.current) return;
     isDraggingRef.current = false;
+    activePointerIdRef.current = null;
     event.currentTarget.releasePointerCapture(event.pointerId);
   }, []);
 
   const handlePointerCancel = useCallback((event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerId !== activePointerIdRef.current) return;
     isDraggingRef.current = false;
+    activePointerIdRef.current = null;
     event.currentTarget.releasePointerCapture(event.pointerId);
   }, []);
 

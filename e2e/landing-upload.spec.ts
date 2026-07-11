@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
 import { test as testWithFixtures } from "./fixtures";
-import { expectLandingVisible, seedEditorWithImage } from "./helpers";
+import { expectHomeVisible, seedEditorWithImage } from "./helpers";
 
-test.describe("Landing upload", () => {
+test.describe("Home upload", () => {
   test("with IndexedDB: image upload redirects to /image/edit and shows editor", async ({
     page,
   }) => {
@@ -20,9 +20,8 @@ test.describe("Landing upload", () => {
     page,
   }) => {
     await page.goto("/");
-    const landing = page.locator('[data-component="Landing"]');
-    await expectLandingVisible(page);
-    const uploadButton = landing.getByRole("button", { name: "Choose image", exact: true });
+    await expectHomeVisible(page);
+    const uploadButton = page.getByRole("button", { name: "Choose image", exact: true });
 
     const fileChooserPromise = page.waitForEvent("filechooser");
     await uploadButton.click();
@@ -30,7 +29,7 @@ test.describe("Landing upload", () => {
     await page.evaluate(() => window.dispatchEvent(new Event("focus")));
 
     await expect(page).toHaveURL("/");
-    await expect(landing).toBeVisible();
+    await expect(uploadButton).toBeVisible();
     await expect(uploadButton).toHaveAttribute("aria-pressed", "false");
     await expect(page.locator('[data-component="FocalPointEditor"]')).not.toBeVisible();
   });
@@ -39,9 +38,8 @@ test.describe("Landing upload", () => {
     "without IndexedDB: user starts upload via button then cancels file dialog – UI responsive and button not pressed",
     async ({ pageWithoutIndexedDB: page }) => {
       await page.goto("/");
-      const landing = page.locator('[data-component="Landing"]');
-      await expectLandingVisible(page);
-      const uploadButton = landing.getByRole("button", { name: "Choose image", exact: true });
+      await expectHomeVisible(page);
+      const uploadButton = page.getByRole("button", { name: "Choose image", exact: true });
 
       const fileChooserPromise = page.waitForEvent("filechooser");
       await uploadButton.click();
@@ -49,7 +47,7 @@ test.describe("Landing upload", () => {
       await page.evaluate(() => window.dispatchEvent(new Event("focus")));
 
       await expect(page).toHaveURL("/");
-      await expect(landing).toBeVisible();
+      await expect(uploadButton).toBeVisible();
       await expect(uploadButton).toHaveAttribute("aria-pressed", "false");
       await expect(page.locator('[data-component="FocalPointEditor"]')).not.toBeVisible();
     },

@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 import { test as testWithFixtures } from "./fixtures";
 import {
   expectEditorWithControlsVisible,
-  expectLandingVisible,
+  expectHomeVisible,
   SAMPLE_IMAGE_PATH,
   seedEditorWithImage,
   waitForEditorReady,
@@ -128,7 +128,7 @@ test.describe("Drag-drop", () => {
     page,
   }) => {
     await page.goto("/");
-    await expectLandingVisible(page);
+    await expectHomeVisible(page);
 
     await dropImageFileOnPage(page);
 
@@ -140,7 +140,7 @@ test.describe("Drag-drop", () => {
     "without IndexedDB: drop file on app then image uploaded and redirect to /image/edit",
     async ({ pageWithoutIndexedDB: page }) => {
       await page.goto("/");
-      await expectLandingVisible(page);
+      await expectHomeVisible(page);
 
       await dropImageFileOnPage(page);
 
@@ -153,14 +153,12 @@ test.describe("Drag-drop", () => {
     page,
   }) => {
     await page.goto("/");
-    const landing = page.locator('[data-component="Landing"]');
-    await expectLandingVisible(page);
+    await expectHomeVisible(page);
 
     await dragImageThenDropOutside(page);
 
     await expect(page).toHaveURL("/");
-    await expect(landing).toBeVisible();
-    const uploadButton = landing.getByRole("button", { name: "Choose image", exact: true });
+    const uploadButton = page.getByRole("button", { name: "Choose image", exact: true });
     await expect(uploadButton).toBeVisible();
     await expect(uploadButton).toBeEnabled();
     await expect(page.locator('[data-component="FullScreenDropZone"]:popover-open')).toHaveCount(0);
@@ -170,14 +168,12 @@ test.describe("Drag-drop", () => {
     "without IndexedDB: file dragged but dropped outside browser then app stays responsive and no redirect",
     async ({ pageWithoutIndexedDB: page }) => {
       await page.goto("/");
-      const landing = page.locator('[data-component="Landing"]');
-      await expectLandingVisible(page);
+      await expectHomeVisible(page);
 
       await dragImageThenDropOutside(page);
 
       await expect(page).toHaveURL("/");
-      await expect(landing).toBeVisible();
-      const uploadButton = landing.getByRole("button", { name: "Choose image", exact: true });
+      const uploadButton = page.getByRole("button", { name: "Choose image", exact: true });
       await expect(uploadButton).toBeVisible();
       await expect(uploadButton).toBeEnabled();
       await expect(page.locator('[data-component="FullScreenDropZone"]:popover-open')).toHaveCount(
@@ -205,7 +201,7 @@ test.describe("Drag-drop", () => {
     page,
   }) => {
     await page.goto("/");
-    await expectLandingVisible(page);
+    await expectHomeVisible(page);
 
     const buffer = fs.readFileSync(SAMPLE_IMAGE_PATH);
     const base64 = buffer.toString("base64");

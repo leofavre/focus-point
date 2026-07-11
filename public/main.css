@@ -67,6 +67,10 @@ body {
   }
 }
 
+img {
+  -webkit-touch-callout: none;
+}
+
 ::selection {
   background-color: var(--color-light-glow);
 }

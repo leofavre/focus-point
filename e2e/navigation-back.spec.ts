@@ -1,9 +1,9 @@
 import { expect, test } from "@playwright/test";
 import { test as testWithFixtures } from "./fixtures";
-import { expectLandingVisible, seedEditorWithImage } from "./helpers";
+import { expectHomeVisible, seedEditorWithImage } from "./helpers";
 
 test.describe("Navigation and back button", () => {
-  test("with IndexedDB: upload redirects to /image/edit, back returns to / with Landing visible", async ({
+  test("with IndexedDB: upload redirects to /image/edit, back returns to / with home visible", async ({
     page,
   }) => {
     await seedEditorWithImage(page);
@@ -11,11 +11,11 @@ test.describe("Navigation and back button", () => {
     await page.goBack();
 
     await expect(page).toHaveURL("/");
-    await expectLandingVisible(page);
+    await expectHomeVisible(page);
   });
 
   testWithFixtures(
-    "without IndexedDB: upload redirects to /image/edit, back returns to / with Landing visible",
+    "without IndexedDB: upload redirects to /image/edit, back returns to / with home visible",
     async ({ pageWithoutIndexedDB: page }) => {
       await page.goto("about:blank");
       await page.goto("/");
@@ -24,7 +24,7 @@ test.describe("Navigation and back button", () => {
       await page.goBack();
 
       await expect(page).toHaveURL("/");
-      await expectLandingVisible(page);
+      await expectHomeVisible(page);
     },
   );
 });

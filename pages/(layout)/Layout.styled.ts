@@ -1,27 +1,22 @@
-import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-
-const spin = keyframes`
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-/** CSS-only loading spinner. */
-export const LoadingSpinner = styled.span`
-  display: inline-block;
-  width: 1.5em;
-  height: 1.5em;
-  border: 2px solid currentColor;
-  border-right-color: transparent;
-  animation: ${spin} 0.8s linear infinite;
-`;
 
 /** Shared full-width message (loading, errors) in the main content area. */
 export const LayoutMessage = styled.h3`
   grid-column: 1 / -1;
   grid-row: 1 / -2;
   margin: auto;
+`;
+
+/** Centered container for interactive content (e.g. Choose Image button) in the main content area. */
+export const LayoutCenter = styled.div`
+  grid-column: 1 / -1;
+  grid-row: 1 / -2;
+  margin: auto;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--base-line-2x);
 `;
 
 /** Header row; display: contents so title and privacy link are laid out on the main grid. */
@@ -60,22 +55,22 @@ export const EditorControlsNav = styled.nav`
 export const LayoutGrid = styled.main`
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 12ch) minmax(0, 12ch) minmax(8rem, 50rem) minmax(0, 12ch) minmax(0, 12ch) minmax(0, 1fr);
-  grid-template-rows: 7rem 1fr auto;
+
+  grid-template-columns:
+    minmax(var(--base-line-05x), 1fr)
+    minmax(0, 9rem)
+    minmax(0, 9rem)
+    minmax(12rem, 50rem)
+    minmax(0, 9rem)
+    minmax(0, 9rem)
+    minmax(var(--base-line-05x), 1fr);
+
+  grid-template-rows: 8rem 1fr 6rem;
   overflow: hidden;
   gap: var(--base-line-05x);
   margin: 0;
   width: 100dvw;
   min-height: 100dvh;
-
-  [data-component="Landing"] {
-    grid-column: 1 / -1;
-    grid-row: 1 / -1;
-    margin: auto;
-
-    width: 100%;
-    max-width: 80rem;
-  }
 
   [data-component="FocalPointEditor"] {
     grid-row: 1 / 3;
@@ -90,61 +85,41 @@ export const LayoutGrid = styled.main`
     width: clamp(25rem, 100dvw, 40rem);
   }
 
-  [data-component="EditorControlsNav"] [data-component="AspectRatioSlider"],
-  > [data-component="AspectRatioSlider"] {
+  [data-component="AspectRatioSlider"] {
     position: relative;
-    top: 8rem;
     grid-row: 3;
     grid-column: 4;
     margin-left: auto;
     margin-right: auto;
     max-width: 1200px;
-    visibility: hidden;
-    transition: top 132ms ease-in-out 0s, visibility 132ms linear 132ms;
   }
 
-  [data-component="EditorControlsNav"] [data-component="FocalPointButton"],
-  > [data-component="FocalPointButton"] {
+  [data-component="EditorControlsNav"] [data-component="FocalPointButton"] {
     position: relative;
-    top: 8rem;
     grid-row: 3;
     grid-column: 2;
     margin-bottom: auto;
-    visibility: hidden;
-    transition: top 132ms ease-in-out 0s, visibility 132ms linear 132ms;
   }
 
-  [data-component="EditorControlsNav"] [data-component="ImageOverflowButton"],
-  > [data-component="ImageOverflowButton"] {
+  [data-component="EditorControlsNav"] [data-component="ImageOverflowButton"] {
     position: relative;
-    top: 8rem;
     grid-row: 3;
     grid-column: 3;
     margin-bottom: auto;
-    visibility: hidden;
-    transition: top 132ms ease-in-out 0s, visibility 132ms linear 132ms;
   }
 
-  [data-component="EditorControlsNav"] [data-component="CodeSnippetButton"],
-  > [data-component="CodeSnippetButton"] {
+  [data-component="EditorControlsNav"] [data-component="CodeSnippetButton"] {
     position: relative;
-    top: 8rem;
     grid-row: 3;
     grid-column: 5;
     margin-bottom: auto;
-    visibility: hidden;
-    transition: top 132ms ease-in-out 0s, visibility 132ms linear 132ms;
   }
 
-  [data-component="EditorControlsNav"] [data-component="ImageUploaderButton"],
-  > [data-component="ImageUploaderButton"] {
+  [data-component="EditorControlsNav"] [data-component="ImageUploaderButton"] {
     position: relative;
-    top: 8rem;
     grid-row: 3;
     grid-column: 6;
     margin-bottom: auto;
-    visibility: hidden;
-    transition: top 132ms ease-in-out 0s, visibility 132ms linear 132ms;
   }
 
   [data-component="ImageUploaderButton"] {
@@ -159,15 +134,36 @@ export const LayoutGrid = styled.main`
     z-index: 3;
   }
 
-  &[data-has-bottom-bar] {
-    [data-component="EditorControlsNav"] [data-component="AspectRatioSlider"],
+  @media (aspect-ratio: 4/5), (max-aspect-ratio: 4/5) {
+    grid-template-columns:
+      minmax(var(--base-line-05x), 1fr)
+      minmax(0, 9rem)
+      minmax(0, 9rem)
+      minmax(0, 2.5rem)
+      minmax(0, 2.5rem)
+      minmax(var(--base-line-05x), 1fr);
+
+    grid-template-rows: 8rem 1fr auto 4rem;
+
+    [data-component="AspectRatioSlider"] {
+      grid-column: 2 / -2;
+      width: calc(100% + var(--thumb-diameter));
+      margin-left: calc(var(--thumb-radius) * -1);
+    }
+
     [data-component="EditorControlsNav"] [data-component="FocalPointButton"],
     [data-component="EditorControlsNav"] [data-component="ImageOverflowButton"],
     [data-component="EditorControlsNav"] [data-component="CodeSnippetButton"],
     [data-component="EditorControlsNav"] [data-component="ImageUploaderButton"] {
-      top: 0;
-      visibility: visible;
-      transition: top 132ms ease-in-out 0s, visibility 132ms linear 0s;
+      grid-row: 4;
+    }
+
+    [data-component="EditorControlsNav"] [data-component="CodeSnippetButton"] {
+      grid-column: 4;
+    }
+
+    [data-component="EditorControlsNav"] [data-component="ImageUploaderButton"] {
+      grid-column: 5;
     }
   }
 `;

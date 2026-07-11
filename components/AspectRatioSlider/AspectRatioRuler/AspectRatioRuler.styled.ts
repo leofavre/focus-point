@@ -26,7 +26,7 @@ export const Item = styled.li`
     right: calc(var(--position) - 1px);
   }
 
-  &[data-name="original"] {
+  &[data-key="original"] {
     top: calc(var(--runner-thickness) * -3);
     color: var(--color-loud);
   }
@@ -48,7 +48,7 @@ export const Label = styled.span`
     vertical-align: middle;
   }
 
-  [data-name="original"] > &::after {
+  [data-key="original"] > &::after {
     height: calc(var(--base-line-05x) + var(--runner-thickness) * 3);
     background-color: var(--color-loud);
   }

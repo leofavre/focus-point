@@ -3,7 +3,9 @@ import type { Toast } from "react-hot-toast";
 import { ToastBar, useToaster } from "react-hot-toast";
 import { parseBooleanAttr } from "@/src/helpers/parseBooleanAttr";
 import { BACKDROP_HIDE_DELAY_MS } from "@/src/hooks/useClosingTransition";
-import { Wrapper } from "./ToasterInPopover.styled";
+import { IconClose } from "@/src/icons/IconClose";
+import { IconOk } from "@/src/icons/IconOk";
+import { Wrapper } from "./Toaster.styled";
 
 function ToastPopover({ toast, children, ...rest }: { toast: Toast; children: React.ReactNode }) {
   const popoverRef = useRef<HTMLDivElement>(null);
@@ -44,23 +46,17 @@ function ToastPopover({ toast, children, ...rest }: { toast: Toast; children: Re
   );
 }
 
-export function ToasterInPopover() {
+export function Toaster() {
   const { toasts } = useToaster({
     style: {
       borderRadius: 0,
       opacity: 1,
     },
     success: {
-      iconTheme: {
-        primary: "var(--color-toast-success)",
-        secondary: "#fff",
-      },
+      icon: <IconOk />,
     },
     error: {
-      iconTheme: {
-        primary: "var(--color-toast-error)",
-        secondary: "#fff",
-      },
+      icon: <IconClose />,
     },
   });
 

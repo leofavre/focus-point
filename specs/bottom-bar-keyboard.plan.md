@@ -22,8 +22,8 @@ Tab-key-triggered focus order (and Shift+Tab backward order) must also work corr
   1. Go to / and upload sample image via Image button
     - expect: Redirect to /edit
     - expect: Editor and controls visible
-  2. Assert main has data-has-bottom-bar and bottom bar controls are visible
-    - expect: Layout grid has data-has-bottom-bar
+  2. Assert main and bottom bar controls are visible
+    - expect: Layout grid (main) is visible
     - expect: FocalPointButton, AspectRatioSlider, Image button visible in bar
 
 #### 1.2. Tab moves focus through bottom bar controls in visual order
@@ -110,7 +110,7 @@ Assert using the range input’s `min` and `max` attributes only (no need to ass
   2. Focus the aspect ratio slider
     - expect: Slider is focused
   3. Press ArrowRight repeatedly until slider value stops changing (reach right end)
-    - expect: Slider value equals input max (highest aspect ratio, e.g. 4:1)
+    - expect: Slider value equals input max
   4. Press ArrowLeft once
     - expect: Slider value changes (previous aspect ratio)
 

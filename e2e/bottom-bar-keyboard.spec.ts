@@ -108,7 +108,7 @@ test.describe("Bottom bar keyboard navigation", () => {
   });
 
   test("bottom bar is visible when editor is shown", async ({ page }) => {
-    const grid = page.locator("main[data-has-bottom-bar]");
+    const grid = page.locator("main");
     await expect(grid).toBeVisible();
     await expect(grid.locator('[data-component="FocalPointButton"]')).toBeVisible();
     await expect(grid.locator('[data-component="AspectRatioSlider"]')).toBeVisible();

@@ -6,11 +6,11 @@ import type { CreateImageStateReason } from "../errorTypes";
 export function getCreateImageStateErrorMessage(reason: CreateImageStateReason): string {
   switch (reason) {
     case "InvalidUrl":
-      return "Invalid URL";
+      return "Invalid URL.";
     case "ImageLoadFailed":
     case "BlobCreateFailed":
-      return "Failed to load image";
+      return "Failed to load image.";
     default:
-      return "Failed to load image";
+      return "Failed to load image.";
   }
 }

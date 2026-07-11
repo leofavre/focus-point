@@ -1,9 +1,15 @@
+import { useCallback, useState } from "react";
+import toast from "react-hot-toast";
 import { CodeSnippet } from "@/components/CodeSnippet/CodeSnippet";
 import { CodeSnippetHeader } from "@/components/CodeSnippetHeader/CodeSnippetHeader";
 import { Dialog } from "@/components/Dialog/Dialog";
 import { FocalPointEditor } from "@/components/FocalPointEditor/FocalPointEditor";
-import { LayoutMessage } from "@/pages/(layout)/Layout.styled";
-import { useEditorContext } from "@/src/AppContext";
+import type { UploadErrorCode } from "@/components/ImageUploader/getUploadErrorMessage";
+import { getUploadErrorMessage } from "@/components/ImageUploader/getUploadErrorMessage";
+import { ImageUploaderButton } from "@/components/ImageUploader/ImageUploaderButton";
+import { LayoutCenter } from "@/pages/(layout)/Layout.styled";
+import { useEditorContext } from "@/src/EditorContext";
+import type { Err } from "@/src/helpers/errorHandling";
 import type { ObjectPositionString } from "@/src/types";
 
 const DEFAULT_OBJECT_POSITION: ObjectPositionString = "50% 50%";
@@ -12,7 +18,6 @@ const DEFAULT_CODE_SNIPPET_LANGUAGE = "html" as const;
 export function EditPage() {
   const {
     image,
-    imageCount,
     aspectRatio,
     showFocalPoint,
     showImageOverflow,
@@ -21,12 +26,18 @@ export function EditPage() {
     codeSnippetLanguage,
     setCodeSnippetLanguage,
     currentObjectPosition,
+    handleImageUpload,
     handleImageError,
     handleObjectPositionChange,
     focalPointImageRef,
+    isLoading,
     imageNotFoundConfirmed,
     isEditingSingleImage,
   } = useEditorContext();
+
+  const handleImageUploadError = useCallback((error: Err<UploadErrorCode>) => {
+    toast.error(getUploadErrorMessage(error));
+  }, []);
 
   if (image != null && aspectRatio != null) {
     return (
@@ -67,15 +78,42 @@ export function EditPage() {
     );
   }
 
+  if (isLoading) {
+    return null;
+  }
+
   if (imageNotFoundConfirmed) {
     return (
-      <LayoutMessage>
-        {isEditingSingleImage && imageCount === 0
-          ? "Start by uploading an image"
-          : "Image not found"}
-      </LayoutMessage>
+      <LayoutCenter>
+        <ImageUploaderButton
+          size="large"
+          label="Choose image"
+          onImageUpload={handleImageUpload}
+          onImageUploadError={handleImageUploadError}
+          icon="add"
+        />
+        <StaticMessage>
+          {isEditingSingleImage ? "Start by choosing an image" : "Image not found"}
+        </StaticMessage>
+      </LayoutCenter>
     );
   }
 
-  return null;
+  return (
+    <LayoutCenter>
+      <ImageUploaderButton
+        size="large"
+        label="Choose image"
+        onImageUpload={handleImageUpload}
+        onImageUploadError={handleImageUploadError}
+        icon="add"
+      />
+    </LayoutCenter>
+  );
+}
+
+function StaticMessage({ children }: { children: string }) {
+  // The message never changes until the component is unmounted
+  const [message] = useState(children);
+  return <h3>{message}</h3>;
 }

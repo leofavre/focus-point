@@ -4,10 +4,10 @@ import type { AspectRatioRulerProps } from "./types";
 export function AspectRatioRuler({ ref, aspectRatioList, ...rest }: AspectRatioRulerProps) {
   return (
     <List data-component="AspectRatioRuler" ref={ref} {...rest}>
-      {aspectRatioList.map(({ name, position }) => {
+      {aspectRatioList.map(({ key, displayName, position }) => {
         return (
-          <Item key={name} data-name={name} css={{ "--position": `${position * 100}%` }}>
-            <Label>{name}</Label>
+          <Item key={key} data-key={key} css={{ "--position": `${position * 100}%` }}>
+            <Label>{displayName}</Label>
           </Item>
         );
       })}

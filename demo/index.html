@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS object-fit vs. calculateCSSObjectFit</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 40px;
+        font-family: sans-serif;
+        display: flex;
+        flex-direction: column;
+        gap: 200px;
+      }
+
+      #fit-select {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 1;
+        padding: 8px 16px;
+        font-family: monospace;
+        font-size: 14px;
+      }
+
+      figure {
+        margin: 0;
+      }
+
+      figcaption {
+        margin-bottom: 64px;
+        position: relative;
+        z-index: 1;
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 4px 8px;
+      }
+
+      .container {
+        width: 400px;
+        height: 400px;
+        outline: 3px solid crimson;
+      }
+
+      .css-fit img {
+        display: block;
+        width: 400px;
+        height: 400px;
+        object-position: 25% 25%;
+      }
+
+      .js-fit {
+        position: relative;
+        overflow: visible;
+      }
+
+      .js-fit img {
+        display: block;
+        position: absolute;
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <select id="fit-select">
+      <option value="cover">object-fit: cover</option>
+      <option value="contain">object-fit: contain</option>
+      <option value="fill">object-fit: fill</option>
+      <option value="none">object-fit: none</option>
+      <option value="scale-down">object-fit: scale-down</option>
+    </select>
+
+    <figure>
+      <figcaption>4:3 — CSS: <code>object-fit; object-position: 25% 25%</code></figcaption>
+      <div class="container css-fit">
+        <img src="https://picsum.photos/id/1015/800/600" alt="CSS object-fit, 4:3" />
+      </div>
+    </figure>
+
+    <figure>
+      <figcaption>4:3 — JS: <code>calculateCSSObjectFit</code> (pixels, overflow visible)</figcaption>
+      <div class="container js-fit">
+        <img class="js-px" src="https://picsum.photos/id/1015/800/600" alt="JS object-fit simulation in pixels, 4:3" />
+      </div>
+    </figure>
+
+    <figure>
+      <figcaption>4:3 — JS: <code>calculateCSSObjectFitPercent</code> (percent, overflow visible)</figcaption>
+      <div class="container js-fit">
+        <img class="js-percent" src="https://picsum.photos/id/1015/800/600" alt="JS object-fit simulation in percent, 4:3" />
+      </div>
+    </figure>
+
+    <figure>
+      <figcaption>3:4 — CSS: <code>object-fit; object-position: 25% 25%</code></figcaption>
+      <div class="container css-fit">
+        <img src="https://picsum.photos/id/1011/600/800" alt="CSS object-fit, 3:4" />
+      </div>
+    </figure>
+
+    <figure>
+      <figcaption>3:4 — JS: <code>calculateCSSObjectFit</code> (pixels, overflow visible)</figcaption>
+      <div class="container js-fit">
+        <img class="js-px" src="https://picsum.photos/id/1011/600/800" alt="JS object-fit simulation in pixels, 3:4" />
+      </div>
+    </figure>
+
+    <figure>
+      <figcaption>3:4 — JS: <code>calculateCSSObjectFitPercent</code> (percent, overflow visible)</figcaption>
+      <div class="container js-fit">
+        <img class="js-percent" src="https://picsum.photos/id/1011/600/800" alt="JS object-fit simulation in percent, 3:4" />
+      </div>
+    </figure>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

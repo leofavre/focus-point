@@ -1,24 +1,24 @@
 import { expect, test } from "@playwright/test";
 import { test as testWithFixtures } from "./fixtures";
-import { expectLandingVisible } from "./helpers";
+import { expectHomeVisible } from "./helpers";
 
-test.describe("Landing page", () => {
-  test("with IndexedDB: shows project description and upload button when visiting /", async ({
+test.describe("Home page", () => {
+  test("with IndexedDB: shows upload button and disabled controls when visiting /", async ({
     page,
   }) => {
     await page.goto("/");
-    await expectLandingVisible(page);
-    const landing = page.locator('[data-component="Landing"]');
-    await expect(landing.locator('[data-component="HowToUse"]')).toBeVisible();
+    await expectHomeVisible(page);
+    await expect(page.locator('[data-component="AspectRatioSlider"]')).toBeVisible();
+    await expect(page.locator('[data-component="FocalPointButton"]')).toBeDisabled();
   });
 
   testWithFixtures(
-    "without IndexedDB: shows project description and upload button when visiting /",
+    "without IndexedDB: shows upload button and disabled controls when visiting /",
     async ({ pageWithoutIndexedDB: page }) => {
       await page.goto("/");
-      await expectLandingVisible(page);
-      const landing = page.locator('[data-component="Landing"]');
-      await expect(landing.locator('[data-component="HowToUse"]')).toBeVisible();
+      await expectHomeVisible(page);
+      await expect(page.locator('[data-component="AspectRatioSlider"]')).toBeVisible();
+      await expect(page.locator('[data-component="FocalPointButton"]')).toBeDisabled();
     },
   );
 });
